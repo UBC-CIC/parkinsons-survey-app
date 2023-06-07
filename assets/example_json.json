@@ -1,0 +1,153 @@
+{
+  "id": "123",
+  "type": "navigable",
+  "rules": [],
+  "steps": [
+    {
+      "stepIdentifier": {
+        "id": "intro"
+      },
+      "type": "intro",
+      "title": "Parkinson Symptom\nQuestionnaire",
+      "text": "",
+      "buttonText": "Begin"
+    },
+    {
+      "stepIdentifier": {
+        "id": "1"
+      },
+      "type": "customQuestion",
+      "title": "Which symptoms are you experiencing?",
+      "text": "Multiple symptoms can be selected",
+      "answerFormat": {
+        "type": "multiple",
+        "textChoices": [
+          {
+            "text": "Tremor",
+            "value": "tremor"
+          },
+          {
+            "text": "Weakness",
+            "value": "weakness"
+          },
+          {
+            "text": "Slowness of Movement",
+            "value": "slowness-of-movement"
+          },
+          {
+            "text": "Balance problems",
+            "value": "balance-problems"
+          },
+          {
+            "text": "Difficulty in Speech",
+            "value": "speech-difficulty"
+          }
+        ]
+      }
+    },
+    {
+      "stepIdentifier": {
+        "id": "2"
+      },
+      "type": "customQuestion",
+      "title": "Which symptoms are you experiencing?",
+      "text": "Multiple symptoms can be selected",
+      "answerFormat": {
+        "type": "multiple",
+        "textChoices": [
+          {
+            "text": "General stiffness",
+            "value": "general-stiffness"
+          },
+          {
+            "text": "Muscle cramping",
+            "value": "muscle-cramping"
+          },
+          {
+            "text": "Reduced dexterity",
+            "value": "reduced-dexterity"
+          },
+          {
+            "text": "Difficulty getting out of chair",
+            "value": "difficulty-getting-out-of-chair"
+          }
+        ]
+      }
+    },
+    {
+      "stepIdentifier": {
+        "id": "3"
+      },
+      "type": "customQuestion",
+      "title": "Which symptoms are you experiencing?",
+      "text": "Multiple symptoms can be selected",
+      "answerFormat": {
+        "type": "multiple",
+        "textChoices": [
+          {
+            "text": "Mood Changes",
+            "value": "mood-changes"
+          },
+          {
+            "text": "Anxiety",
+            "value": "anxiety"
+          },
+          {
+            "text": "Experience panic attack",
+            "value": "experience-panic-attack"
+          },
+          {
+            "text": "Cloudy mind/Dullness thinking",
+            "value": "cloudy-mind"
+          },
+          {
+            "text": "Abdominal discomfort",
+            "value": "abdominal-discomfort"
+          }
+        ]
+      }
+    },
+    {
+      "stepIdentifier": {
+        "id": "4"
+      },
+      "type": "customQuestion",
+      "title": "Which symptoms are you experiencing?",
+      "text": "Multiple symptoms can be selected",
+      "answerFormat": {
+        "type": "multiple",
+        "textChoices": [
+          {
+            "text": "Numbness",
+            "value": "numbness"
+          },
+          {
+            "text": "Sweating",
+            "value": "sweating"
+          },
+          {
+            "text": "Experience hot or cold",
+            "value": "experience-hot-cold"
+          },
+          {
+            "text": "Pain",
+            "value": "pain"
+          },
+          {
+            "text": "Aching",
+            "value": "aching"
+          }
+        ]
+      }
+    },
+    {
+      "stepIdentifier": {
+        "id": "end"
+      },
+      "type": "completion",
+      "text": "Thanks for taking the survey, your answers have been recorded!",
+      "title": "Done!",
+      "buttonText": "Done"
+    }
+  ]
+}
