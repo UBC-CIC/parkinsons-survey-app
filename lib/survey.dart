@@ -39,15 +39,18 @@ class _SurveyState extends State<Survey> {
         color: Colors.white,
         child: Align(
           alignment: Alignment.center,
-          child: FutureBuilder<Task>(
-            future: task,
+          child: FutureBuilder(
+            future: Future.wait([
+              task,
+              storage.ready,
+            ]),
             builder: (context, snapshot) {
               print(snapshot.error);
               print(snapshot.data);
               print(snapshot.connectionState);
 
               if (snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null) {
-                final task = snapshot.data!;
+                final Task task = snapshot.data![0] as Task;
                 return SurveyKit(
                   onResult: (SurveyResult result) {
                     saveSurvey(result.toJson());
@@ -191,25 +194,6 @@ class _SurveyState extends State<Survey> {
 
     arrayMap['survey_id'] = uuid.v4();
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? userID = prefs.getString('userID');
-    if (userID != null) {
-      arrayMap['patient_id'] = userID;
-    } else {
-      arrayMap['patient_id'] = '';
-    }
-    final String? deviceID = prefs.getString('deviceID');
-    if (deviceID != null) {
-      arrayMap['device_id'] = deviceID;
-    } else {
-      arrayMap['device_id'] = '';
-    }
-    final String? trialID = prefs.getString('trialID');
-    if (trialID != null) {
-      arrayMap['trial_id'] = trialID;
-    } else {
-      arrayMap['trial_id'] = '';
-    }
     arrayMap["time"] = DateTime.now().toString();
 
     List<SurveyQuestion> results = [];
@@ -235,8 +219,9 @@ class _SurveyState extends State<Survey> {
     }
     String body = json.encode(arrayMap);
 
-    print(body);
-
+    Map<String,dynamic> data = storage.getItem('surveys') ?? <String,String>{};
+    data[arrayMap['survey_id']] = body;
+    await storage.setItem('surveys', data);
     return;
   }
 

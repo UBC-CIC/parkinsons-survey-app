@@ -44,7 +44,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 if (context.mounted) {
                   screenLock(
                     context: context,
-                    correctString: passcode != null ? passcode : '1234',
+                    correctString: passcode ?? '1234',
                     onUnlocked: () {
                       Navigator.pop(context);
                       AdminPage.show(context);
@@ -96,16 +96,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 width: 0.5*width,
                 height: 0.2*height,
                 child: ElevatedButton(
-                  onPressed: () {
-                    AwesomeNotifications().createNotification(
-                        content: NotificationContent(
-                            id: 10,
-                            channelKey: 'basic_channel',
-                            title: 'Simple Notification',
-                            body: 'Simple body',
-                            actionType: ActionType.Default
-                        )
-                    );
+                  onPressed: () async {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationTime()));
                   },
                   style: ElevatedButton.styleFrom(

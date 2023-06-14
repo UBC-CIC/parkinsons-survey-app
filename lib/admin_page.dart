@@ -1,6 +1,12 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:parkinsons_app/trial_start_page.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'backend_configuration.dart';
+import 'package:uuid/uuid.dart';
+
 
 const List<String> list = <String>['No Notifications', 'Every 30 min', 'Every Hour', 'Every 2 Hours', 'Every 3 Hours'];
 
@@ -18,8 +24,12 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
+  final LocalStorage storage = LocalStorage('parkinsons_app.json');
+
+  var uuid = const Uuid();
 
   bool idsChanged = false;
+  bool notifiationsChanged = false;
 
   String storedUserID = '';
   String storedTrialID = '';
@@ -139,7 +149,10 @@ class _AdminPageState extends State<AdminPage> {
                     child: SizedBox(
                       width: 320,
                       child: TextField(
-                        onChanged: updateSaveButton(),
+                        onChanged: (String? s) {
+                          print('changed');
+                          updateSaveButtonForIDs();
+                        },
                         controller: userIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
@@ -156,7 +169,10 @@ class _AdminPageState extends State<AdminPage> {
                     child: SizedBox(
                       width: 320,
                       child: TextField(
-                        onChanged: updateSaveButton(),
+                        onChanged: (String? s) {
+                          print('changed');
+                          updateSaveButtonForIDs();
+                        },
                         controller: trialIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
@@ -173,7 +189,10 @@ class _AdminPageState extends State<AdminPage> {
                     child: SizedBox(
                       width: 320,
                       child: TextField(
-                        onChanged: updateSaveButton(),
+                        onChanged: (String? s) {
+                          print('changed');
+                          updateSaveButtonForIDs();
+                        },
                         controller: deviceIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
@@ -224,6 +243,7 @@ class _AdminPageState extends State<AdminPage> {
                                 setState(() {
                                   dropdownValue = value!;
                                 });
+                                updateSaveButtonForNotifications();
                               },
                               items: list.map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
@@ -254,10 +274,44 @@ class _AdminPageState extends State<AdminPage> {
                             storedUserID = userIDController.value.text;
                             await prefs.setString('notificationFrequency', dropdownValue);
                             storedNotificationFrequency = dropdownValue;
-                            updateSaveButton();
+                            updateSaveButtonForIDs();
+                          }
+                          if (notifiationsChanged) {
+                            String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
+
+                            AwesomeNotifications().cancelAll();
+
+                            int repeatInterval = 0;
+
+                            if (dropdownValue == 'Every 30 min') {
+                              repeatInterval = 60;
+                            } else if (dropdownValue == 'Every Hour') {
+                              repeatInterval = 3600;
+                            } else if (dropdownValue == 'Every 2 Hours') {
+                              repeatInterval = 7200;
+                            } else if (dropdownValue == 'Every 3 Hours') {
+                              repeatInterval = 10800;
+                            } else {
+                              repeatInterval = 0;
+                            }
+
+                            if (repeatInterval != 0) {
+                              await AwesomeNotifications().createNotification(
+                                  content: NotificationContent(
+                                      id: 10,
+                                      channelKey: 'reminder_channel',
+                                      title: 'Survey Reminder',
+                                      body: 'Please record your symptoms in the Parkinson\'s Survey App',
+                                      notificationLayout: NotificationLayout.Default),
+                                  schedule: NotificationInterval(interval: repeatInterval, timeZone: localTimeZone, repeats: true));
+                            }
+                            final SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.setString('notificationFrequency', dropdownValue);
+                            storedNotificationFrequency = dropdownValue;
+                            updateSaveButtonForNotifications();
                           }
                         },
-                        style: idsChanged
+                        style: (idsChanged || notifiationsChanged)
                             ? ElevatedButton.styleFrom(
                                 elevation: 0,
                                 backgroundColor: Color(0xff0D85C9),
@@ -274,7 +328,7 @@ class _AdminPageState extends State<AdminPage> {
                                 )),
                         child: Text(
                           'Save',
-                          style: idsChanged
+                          style: (idsChanged || notifiationsChanged)
                               ? TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular', color: Colors.white)
                               : TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular', color: Color(0xffa6a8a9)),
                         ),
@@ -284,35 +338,60 @@ class _AdminPageState extends State<AdminPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
                     child: SizedBox(
-                      width: 180,
-                      height: 65,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final SharedPreferences prefs = await SharedPreferences.getInstance();
-                          await prefs.setBool('trial_in_progress', false);
-                          await prefs.setString('deviceID', '');
-                          await prefs.setString('trialID', '');
-                          await prefs.setString('userID', '');
-                          await prefs.setString('notificationFrequency', '');
+                        width: 180,
+                        height: 65,
+                        child: FutureBuilder(
+                            future: storage.ready,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.done) {
+                                return ElevatedButton(
+                                  onPressed: () async {
+                                    Map<String,dynamic> data = storage.getItem('surveys') ?? <String,String>{};
+                                    List<String> surveysUploaded = [];
+                                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    final String? userID = prefs.getString('userID');
+                                    final String? deviceID = prefs.getString('deviceID');
+                                    final String? trialID = prefs.getString('trialID');
+                                    for(String value in data.values) {
+                                      Map<String,dynamic> survey = json.decode(value);
+                                      survey['patient_id'] = userID ?? '';
+                                      survey['device_id'] = deviceID ?? '';
+                                      survey['trial_id'] = trialID ?? '';
+                                      surveysUploaded.add(survey['survey_id']);
+                                      print(survey.toString());
+                                      final response = await uploadSurvey(json.encode(survey), survey['survey_id'], userID ?? '', trialID ?? '');
+                                      print(response.body);
+                                    }
+                                    final summaryResponse = await uploadSummary(surveysUploaded, deviceID ?? '', userID ?? '', trialID ?? '');
 
-                          if (context.mounted) {
-                            Navigator.pushReplacement(
-                                context, MaterialPageRoute(builder: (context) => const TrialStartPage(), fullscreenDialog: true));
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: Colors.redAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(35),
-                              //border radius equal to or more than 50% of width
-                            )),
-                        child: const Text(
-                          'End Study',
-                          style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular'),
-                        ),
-                      ),
-                    ),
+                                    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    // await prefs.setBool('trial_in_progress', false);
+                                    // await prefs.setString('deviceID', '');
+                                    // await prefs.setString('trialID', '');
+                                    // await prefs.setString('userID', '');
+                                    // await prefs.setString('notificationFrequency', '');
+                                    // AwesomeNotifications().cancelAll();
+                                    // if (context.mounted) {
+                                    //   Navigator.pushReplacement(
+                                    //       context, MaterialPageRoute(builder: (context) => const TrialStartPage(), fullscreenDialog: true));
+                                    // }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      backgroundColor: Colors.redAccent,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(35),
+                                        //border radius equal to or more than 50% of width
+                                      )),
+                                  child: const Text(
+                                    'End Study',
+                                    style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular'),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            })),
                   ),
                 ],
               ),
@@ -323,7 +402,66 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  updateSaveButton() {
+  Future<http.Response> uploadSurvey(String surveyJson, String surveyID, String userID, String trialID) async {
+    final httpResponse = await getS3SurveyURL(surveyID, userID, trialID);
+    final body = json.decode(httpResponse.body);
+    final uploadURL = body["uploadURL"];
+    return http.post(
+      Uri.parse(uploadURL),
+      headers: <String, String>{},
+      body: surveyJson,
+    );
+  }
+
+  Future<http.Response> getS3SurveyURL(String surveyID, String userID, String trialID) async {
+    return http.post(
+      Uri.parse(APIUrl),
+      headers: <String, String>{},
+      body: jsonEncode(<String, String>{
+        'APIKey': S3ApiKey,
+        'S3Key': 'trials/trial_id=$trialID/patient_id=$userID/surveys/$surveyID.json',
+      }),
+    );
+  }
+
+
+  Future<http.Response> uploadSummary(List<String> surveysUploaded, String deviceID, String userID, String trialID) async {
+    List<String> medicationTimes = storage.getItem('medicationTimes') ?? <String>[];
+    Map<String,dynamic> jsonMap = {};
+    String summaryID = uuid.v4();
+    jsonMap['summary_id'] = summaryID;
+    jsonMap['trial_id'] = trialID;
+    jsonMap['patient_id'] = userID;
+    jsonMap['device_id'] = deviceID;
+    jsonMap['medication_times'] = medicationTimes;
+    jsonMap['surveys_uploaded'] = surveysUploaded;
+
+    final summaryJson = json.encode(jsonMap);
+
+    final httpResponse = await getSummaryURL(summaryID, userID, trialID);
+    final body = json.decode(httpResponse.body);
+    final uploadURL = body["uploadURL"];
+    return http.post(
+      Uri.parse(uploadURL),
+      headers: <String, String>{},
+      body: summaryJson,
+    );
+  }
+
+  Future<http.Response> getSummaryURL(String summaryID, String userID, String trialID) async {
+    return http.post(
+      Uri.parse(APIUrl),
+      headers: <String, String>{},
+      body: jsonEncode(<String, String>{
+        'APIKey': S3ApiKey,
+        'S3Key': 'trials/trial_id=$trialID/patient_id=$userID/summaries/$summaryID.json',
+      }),
+    );
+  }
+
+
+
+  updateSaveButtonForIDs() {
     if (storedTrialID != trialIDController.value.text ||
         storedDeviceID != deviceIDController.value.text ||
         storedUserID != userIDController.value.text ||
@@ -334,6 +472,18 @@ class _AdminPageState extends State<AdminPage> {
     } else {
       setState(() {
         idsChanged = false;
+      });
+    }
+  }
+
+  updateSaveButtonForNotifications() {
+    if (storedNotificationFrequency != dropdownValue) {
+      setState(() {
+        notifiationsChanged = true;
+      });
+    } else {
+      setState(() {
+        notifiationsChanged = false;
       });
     }
   }

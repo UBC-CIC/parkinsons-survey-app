@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:localstorage/localstorage.dart';
@@ -218,6 +219,39 @@ class _TrialStartPageState extends State<TrialStartPage> {
                           await prefs.setString('trialID', trialIDController.value.text);
                           await prefs.setString('deviceID', deviceIDController.value.text);
                           await prefs.setString('notificationFrequency', dropdownValue);
+
+
+
+                          String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
+
+                          AwesomeNotifications().cancelAll();
+
+                          int repeatInterval = 0;
+
+                          if (dropdownValue == 'Every 30 min') {
+                            repeatInterval = 60;
+                          } else if (dropdownValue == 'Every Hour') {
+                            repeatInterval = 3600;
+                          } else if (dropdownValue == 'Every 2 Hours') {
+                            repeatInterval = 7200;
+                          } else if (dropdownValue == 'Every 3 Hours') {
+                            repeatInterval = 10800;
+                          } else {
+                            repeatInterval = 0;
+                          }
+
+                          if(repeatInterval != 0) {
+                            await AwesomeNotifications().createNotification(
+                                content: NotificationContent(
+                                    id: 10,
+                                    channelKey: 'reminder_channel',
+                                    title: 'Survey Reminder',
+                                    body:
+                                    'Please record your symptoms in the Parkinson\'s Survey App',
+                                    notificationLayout: NotificationLayout.Default),
+                                schedule: NotificationInterval(interval: repeatInterval, timeZone: localTimeZone, repeats: true));
+                          }
+
                           if (context.mounted) {
                             Navigator.of(context).pushReplacement(
                               PageRouteBuilder(

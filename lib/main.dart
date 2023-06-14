@@ -11,15 +11,12 @@ void main() {
       null,
       [
         NotificationChannel(
-            channelGroupKey: 'basic_channel_group',
-            channelKey: 'basic_channel',
-            channelName: 'Basic notifications',
-            channelDescription: 'Notification channel for basic tests',
-            defaultColor: Color(0xFF9D50DD),
+            channelKey: 'reminder_channel',
+            channelName: 'Survey Reminders',
+            channelDescription: 'Notification channel for survey reminders',
+            defaultColor: Color(0xFF427ac1),
             ledColor: Colors.white)
       ],
-      // Channel groups are only visual and are not required
-      channelGroups: [NotificationChannelGroup(channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic group')],
       debug: true);
 
   runApp(const ParkinsonsApp());
@@ -42,34 +39,7 @@ class _ParkinsonsAppState extends State<ParkinsonsApp> {
   void initState() {
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
       if (!isAllowed) {
-        await showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
-            title: const Text('Allow \"Parkinson\'s Sruvey App\" to send survey reminder notifications?'),
-            content: const Text('Notifications will be sent periodically to notify users to complete surveys.'),
-            actions: <CupertinoDialogAction>[
-              CupertinoDialogAction(
-                /// This parameter indicates the action would perform
-                /// a destructive action such as deletion, and turns
-                /// the action's text color to red.
-                isDestructiveAction: true,
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: const Text('Deny'),
-              ),
-              CupertinoDialogAction(
-                /// This parameter indicates this action is the default,
-                /// and turns the action's text to bold text.
-                isDefaultAction: true,
-                onPressed: () async {
-                  AwesomeNotifications().requestPermissionToSendNotifications();
-                },
-                child: const Text('Allow'),
-              ),
-            ],
-          ),
-        );
+        AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
     super.initState();
