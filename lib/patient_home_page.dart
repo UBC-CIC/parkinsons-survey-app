@@ -2,9 +2,11 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinsons_app/admin_page.dart';
 import 'package:parkinsons_app/medication_confirmation_page.dart';
-import 'package:parkinsons_app/record_medication_time_page.dart';
+import 'package:parkinsons_app/medication_now_or_previous.dart';
 import 'package:parkinsons_app/survey.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
+import 'package:parkinsons_app/survey_now_or_previous.dart';
+import 'package:parkinsons_app/survey_time_picking_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PatientHomePage extends StatefulWidget {
@@ -68,11 +70,11 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 height: 0.2*height,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Survey()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SurveyNowPrevious()));
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      backgroundColor: const Color(0xff07B9D5),
+                      backgroundColor: const Color(0xff4682b4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0.05*height),
                         //border radius equal to or more than 50% of width
@@ -97,11 +99,11 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 height: 0.2*height,
                 child: ElevatedButton(
                   onPressed: () async {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationTime()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const MedicationNowPrevious()));
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      backgroundColor: const Color(0xff07B9D5),
+                      backgroundColor: const Color(0xff4682b4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0.05*height),
                         //border radius equal to or more than 50% of width

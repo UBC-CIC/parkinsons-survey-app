@@ -7,16 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const List<String> list = <String>['No Notifications', 'Every 30 min', 'Every Hour', 'Every 2 Hours', 'Every 3 Hours'];
 
-class TrialStartPage extends StatefulWidget {
-  const TrialStartPage({
+class StudyStartPage extends StatefulWidget {
+  const StudyStartPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<TrialStartPage> createState() => _TrialStartPageState();
+  State<StudyStartPage> createState() => _StudyStartPageState();
 }
 
-class _TrialStartPageState extends State<TrialStartPage> {
+class _StudyStartPageState extends State<StudyStartPage> {
 
   String dropdownValue = list[2];
 
@@ -117,7 +117,7 @@ class _TrialStartPageState extends State<TrialStartPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          labelText: 'Device ID',
+                          labelText: 'Wearable Device ID',
                         ),
                       ),
                     ),
@@ -264,7 +264,7 @@ class _TrialStartPageState extends State<TrialStartPage> {
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            backgroundColor: const Color(0xff07B9D5),
+                            backgroundColor: const Color(0xff4682B4),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                               //border radius equal to or more than 50% of width

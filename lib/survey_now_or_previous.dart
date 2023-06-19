@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parkinsons_app/medication_confirmation_page.dart';
 import 'package:parkinsons_app/medication_time_picking_page.dart';
+import 'package:parkinsons_app/survey.dart';
+import 'package:parkinsons_app/survey_time_picking_page.dart';
 
-class RecordMedicationTime extends StatefulWidget {
-  const RecordMedicationTime({
+class SurveyNowPrevious extends StatefulWidget {
+  const SurveyNowPrevious({
     Key? key,
   }) : super(key: key);
 
 
   @override
-  State<RecordMedicationTime> createState() => _RecordMedicationTimeState();
+  State<SurveyNowPrevious> createState() => _SurveyNowPreviousState();
 }
 
-class _RecordMedicationTimeState extends State<RecordMedicationTime> {
+class _SurveyNowPreviousState extends State<SurveyNowPrevious> {
 
   @override
   void initState() {
@@ -55,10 +57,10 @@ class _RecordMedicationTimeState extends State<RecordMedicationTime> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0.0 * height, 0, 0.0 * height),
                 child: const Text(
-                  'When did you last take\n your Parkinson\'s medication?',
+                  'When did you experience\nyour symptoms?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: 'DMSans-Medium',
+                    fontFamily: 'DMSans-Regular',
                     color: Color(0xff2A2A2A),
                     fontSize: 28,
                   ),
@@ -75,12 +77,11 @@ class _RecordMedicationTimeState extends State<RecordMedicationTime> {
                       if (kDebugMode) {
                         print(timestamp);
                       }
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RecordMedicationConfirmation(justTaken: true, timeStamp: timestamp, formattedTimeStamp: '',)));
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Survey(timestamp: timestamp, isPreviousTime: false,)));
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        backgroundColor: const Color(0xff07B9D5),
+                        backgroundColor: const Color(0xff4682b4),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(0.05*height),
                           //border radius equal to or more than 50% of width
@@ -105,11 +106,11 @@ class _RecordMedicationTimeState extends State<RecordMedicationTime> {
                   height: 0.15*height,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MedicationTimePicking()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SurveyTimePicking()));
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        backgroundColor: const Color(0xff07B9D5),
+                        backgroundColor: const Color(0xff4682b4),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(0.05*height),
                           //border radius equal to or more than 50% of width
@@ -120,7 +121,7 @@ class _RecordMedicationTimeState extends State<RecordMedicationTime> {
                       child: const FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          'At a\nprevious time',
+                          'At a\nPrevious Time',
                           style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Regular'),
                           textAlign: TextAlign.center,
                         ),),),

@@ -1,12 +1,15 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:gaimon/gaimon.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:parkinsons_app/start_study_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'backend_configuration.dart';
 import 'package:uuid/uuid.dart';
 
+import 'loading_page.dart';
 
 const List<String> list = <String>['No Notifications', 'Every 30 min', 'Every Hour', 'Every 2 Hours', 'Every 3 Hours'];
 
@@ -25,6 +28,8 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   final LocalStorage storage = LocalStorage('parkinsons_app.json');
+
+  final uploadResult = ValueNotifier<String>('none');
 
   var uuid = const Uuid();
 
@@ -199,7 +204,7 @@ class _AdminPageState extends State<AdminPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          labelText: 'Device ID',
+                          labelText: 'Wearable Device ID',
                         ),
                       ),
                     ),
@@ -346,35 +351,39 @@ class _AdminPageState extends State<AdminPage> {
                               if (snapshot.connectionState == ConnectionState.done) {
                                 return ElevatedButton(
                                   onPressed: () async {
-                                    Map<String,dynamic> data = storage.getItem('surveys') ?? <String,String>{};
-                                    List<String> surveysUploaded = [];
                                     final SharedPreferences prefs = await SharedPreferences.getInstance();
                                     final String? userID = prefs.getString('userID');
                                     final String? deviceID = prefs.getString('deviceID');
                                     final String? trialID = prefs.getString('trialID');
-                                    for(String value in data.values) {
-                                      Map<String,dynamic> survey = json.decode(value);
-                                      survey['patient_id'] = userID ?? '';
-                                      survey['device_id'] = deviceID ?? '';
-                                      survey['trial_id'] = trialID ?? '';
-                                      surveysUploaded.add(survey['survey_id']);
-                                      print(survey.toString());
-                                      final response = await uploadSurvey(json.encode(survey), survey['survey_id'], userID ?? '', trialID ?? '');
-                                      print(response.body);
-                                    }
-                                    final summaryResponse = await uploadSummary(surveysUploaded, deviceID ?? '', userID ?? '', trialID ?? '');
 
-                                    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-                                    // await prefs.setBool('trial_in_progress', false);
-                                    // await prefs.setString('deviceID', '');
-                                    // await prefs.setString('trialID', '');
-                                    // await prefs.setString('userID', '');
-                                    // await prefs.setString('notificationFrequency', '');
-                                    // AwesomeNotifications().cancelAll();
-                                    // if (context.mounted) {
-                                    //   Navigator.pushReplacement(
-                                    //       context, MaterialPageRoute(builder: (context) => const TrialStartPage(), fullscreenDialog: true));
-                                    // }
+                                    uploadData(deviceID ?? '', userID ?? '', trialID ?? '').then((value) {
+                                      if (value == true) {
+                                        Gaimon.success();
+                                        uploadResult.value = 'success';
+                                        Future.delayed(const Duration(seconds: 2), () async {
+                                          await prefs.setBool('trial_in_progress', false);
+                                          await prefs.setString('deviceID', '');
+                                          await prefs.setString('trialID', '');
+                                          await prefs.setString('userID', '');
+                                          await prefs.setString('notificationFrequency', '');
+                                          await AwesomeNotifications().cancelAll();
+                                          await storage.clear();
+                                          if (context.mounted) {
+                                            Navigator.pushReplacement(
+                                                context, MaterialPageRoute(builder: (context) => const StudyStartPage(), fullscreenDialog: true));
+                                          }
+                                        });
+                                      } else {
+                                        Gaimon.error();
+                                        uploadResult.value = 'failed';
+                                        Future.delayed(const Duration(seconds: 2), () {
+                                          setState(() {
+                                            uploadResult.value = 'none';
+                                            Navigator.pop(context);
+                                          });
+                                        });
+                                      }
+                                    });
                                   },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -402,64 +411,81 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  Future<http.Response> uploadSurvey(String surveyJson, String surveyID, String userID, String trialID) async {
-    final httpResponse = await getS3SurveyURL(surveyID, userID, trialID);
-    final body = json.decode(httpResponse.body);
-    final uploadURL = body["uploadURL"];
-    return http.post(
-      Uri.parse(uploadURL),
-      headers: <String, String>{},
-      body: surveyJson,
+  Future<bool> uploadData(String deviceID, String userID, String trialID) async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Loading(uploadStatus: uploadResult);
+      },
     );
+
+    Map<String, dynamic> surveyMap = storage.getItem('surveys') ?? <String, dynamic>{};
+    List<String> studySurveys = [];
+
+    surveyMap.forEach((key, value) {
+      Map<String, dynamic> survey = json.decode(value);
+      survey['patient_id'] = userID ?? '';
+      survey['device_id'] = deviceID ?? '';
+      survey['trial_id'] = trialID ?? '';
+      studySurveys.add(survey['survey_id']);
+      surveyMap[key] = survey;
+    });
+
+    Map<String, Map<String, dynamic>> uploadMap = {};
+    uploadMap['surveys'] = surveyMap;
+    List<dynamic> jsonMedicationTimes = json.decode(storage.getItem('medicationTimes') ?? '[]');
+    List<String> medicationTimes = jsonMedicationTimes.map((e) => e.toString()).toList();
+
+    Map<String, dynamic> summaryMap = {};
+    String studyID = uuid.v4();
+    summaryMap['study_id'] = studyID;
+    summaryMap['trial_id'] = trialID;
+    summaryMap['patient_id'] = userID;
+    summaryMap['device_id'] = deviceID;
+    summaryMap['medication_times'] = medicationTimes;
+    summaryMap['study_surveys'] = studySurveys;
+
+    uploadMap['study_summary'] = summaryMap;
+
+    final httpResponse = await getUploadURL(studyID, userID, trialID);
+    if(httpResponse.statusCode==200){
+      final body = json.decode(httpResponse.body);
+      if(body==null || body["uploadURL"]==null) {
+        return false;
+      }
+      final uploadURL = body["uploadURL"];
+      http.put(
+        Uri.parse(uploadURL),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(uploadMap).codeUnits,
+      ).then((value) {
+        if(value.statusCode==200) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    } else {
+      return false;
+    }
+    return false;
   }
 
-  Future<http.Response> getS3SurveyURL(String surveyID, String userID, String trialID) async {
+  Future<http.Response> getUploadURL(String studyID, String userID, String trialID) async {
     return http.post(
       Uri.parse(APIUrl),
-      headers: <String, String>{},
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
       body: jsonEncode(<String, String>{
         'APIKey': S3ApiKey,
-        'S3Key': 'trials/trial_id=$trialID/patient_id=$userID/surveys/$surveyID.json',
+        'S3Key': 'trials/trial_id=$trialID/patient_id=$userID/studies/$studyID.json',
       }),
     );
   }
-
-
-  Future<http.Response> uploadSummary(List<String> surveysUploaded, String deviceID, String userID, String trialID) async {
-    List<String> medicationTimes = storage.getItem('medicationTimes') ?? <String>[];
-    Map<String,dynamic> jsonMap = {};
-    String summaryID = uuid.v4();
-    jsonMap['summary_id'] = summaryID;
-    jsonMap['trial_id'] = trialID;
-    jsonMap['patient_id'] = userID;
-    jsonMap['device_id'] = deviceID;
-    jsonMap['medication_times'] = medicationTimes;
-    jsonMap['surveys_uploaded'] = surveysUploaded;
-
-    final summaryJson = json.encode(jsonMap);
-
-    final httpResponse = await getSummaryURL(summaryID, userID, trialID);
-    final body = json.decode(httpResponse.body);
-    final uploadURL = body["uploadURL"];
-    return http.post(
-      Uri.parse(uploadURL),
-      headers: <String, String>{},
-      body: summaryJson,
-    );
-  }
-
-  Future<http.Response> getSummaryURL(String summaryID, String userID, String trialID) async {
-    return http.post(
-      Uri.parse(APIUrl),
-      headers: <String, String>{},
-      body: jsonEncode(<String, String>{
-        'APIKey': S3ApiKey,
-        'S3Key': 'trials/trial_id=$trialID/patient_id=$userID/summaries/$summaryID.json',
-      }),
-    );
-  }
-
-
 
   updateSaveButtonForIDs() {
     if (storedTrialID != trialIDController.value.text ||

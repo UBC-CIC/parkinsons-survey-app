@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinsons_app/patient_home_page.dart';
-import 'package:parkinsons_app/trial_start_page.dart';
+import 'package:parkinsons_app/start_study_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 
@@ -78,7 +78,7 @@ class _PageRouterState extends State<PageRouter> {
       if (context.mounted) {
         Navigator.of(context).push(
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const TrialStartPage(),
+            pageBuilder: (_, __, ___) => const StudyStartPage(),
             transitionDuration: const Duration(milliseconds: 250),
             transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
           ),

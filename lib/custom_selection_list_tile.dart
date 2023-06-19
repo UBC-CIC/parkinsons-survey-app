@@ -23,7 +23,7 @@ class CustomSelectionListTile extends StatelessWidget {
       if (states.any(interactiveStates.contains)) {
         return Colors.blue;
       }
-      return Colors.cyan;
+      return Color(0xff00A2C8);
     }
 
     return Column(
@@ -39,7 +39,7 @@ class CustomSelectionListTile extends StatelessWidget {
                   text,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    color: isSelected? Colors.cyan: Colors.black,
+                    color: isSelected? Color(0xff00A2C8): Colors.black,
                     fontFamily: 'DMSans-Regualar',
                     fontSize: 26
                   )

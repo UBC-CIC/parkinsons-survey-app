@@ -5,13 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:parkinsons_app/SurveyQuestion.dart';
 import 'package:parkinsons_app/custom_navigable_task.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'package:uuid/uuid.dart';
 
+import 'loading_page.dart';
+
 
 class Survey extends StatefulWidget {
-  const Survey({super.key});
+  const Survey({super.key, required this.timestamp, required this.isPreviousTime});
+
+  final String timestamp;
+  final bool isPreviousTime;
 
   @override
   State<Survey> createState() => _SurveyState();
@@ -20,16 +24,28 @@ class Survey extends StatefulWidget {
 class _SurveyState extends State<Survey> {
   late Future<Task> task;
 
-  final LocalStorage storage = new LocalStorage('parkinsons_app.json');
+  final LocalStorage storage = LocalStorage('parkinsons_app.json');
+
+  Map<int, Color> color =
+  {
+    50:const Color.fromRGBO(70,130,180, .1),
+    100:const Color.fromRGBO(70,130,180, .2),
+    200:const Color.fromRGBO(70,130,180, .3),
+    300:const Color.fromRGBO(70,130,180, .4),
+    400:const Color.fromRGBO(70,130,180, .5),
+    500:const Color.fromRGBO(70,130,180, .6),
+    600:const Color.fromRGBO(70,130,180, .7),
+    700:const Color.fromRGBO(70,130,180, .8),
+    800:const Color.fromRGBO(70,130,180, .9),
+    900:const Color.fromRGBO(70,130,180, 1),
+  };
 
   var uuid = const Uuid();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     task = getJsonTask();
-    // task = getSampleTaskMorePages();
   }
 
   @override
@@ -45,17 +61,17 @@ class _SurveyState extends State<Survey> {
               storage.ready,
             ]),
             builder: (context, snapshot) {
-              print(snapshot.error);
-              print(snapshot.data);
-              print(snapshot.connectionState);
 
               if (snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null) {
                 final Task task = snapshot.data![0] as Task;
                 return SurveyKit(
                   onResult: (SurveyResult result) {
                     saveSurvey(result.toJson());
-                    // print(result.toJson().toString());
                     Navigator.pop(context);
+                    Navigator.pop(context);
+                    if(widget.isPreviousTime) {
+                     Navigator.pop(context);
+                    }
                   },
                   task: task,
                   showProgress: true,
@@ -64,31 +80,31 @@ class _SurveyState extends State<Survey> {
                     'next': 'Next',
                   },
                   themeData: Theme.of(context).copyWith(
-                    primaryColor: Colors.cyan,
+                    primaryColor: const Color(0xff4682b4),
                     appBarTheme: const AppBarTheme(
                       color: Colors.white,
                       iconTheme: IconThemeData(
-                        color: Colors.cyan,
+                        color: const Color(0xff4682b4),
                       ),
                       titleTextStyle: TextStyle(
-                        color: Colors.cyan,
+                        color: const Color(0xff4682b4),
                       ),
                     ),
                     iconTheme: const IconThemeData(
-                      color: Colors.cyan,
+                      color: const Color(0xff4682b4),
                     ),
                     textSelectionTheme: const TextSelectionThemeData(
-                      cursorColor: Colors.cyan,
-                      selectionColor: Colors.cyan,
-                      selectionHandleColor: Colors.cyan,
+                      cursorColor: const Color(0xff4682b4),
+                      selectionColor: const Color(0xff4682b4),
+                      selectionHandleColor: const Color(0xff4682b4),
                     ),
                     cupertinoOverrideTheme: const CupertinoThemeData(
-                      primaryColor: Colors.cyan,
+                      primaryColor: const Color(0xff4682b4),
                     ),
                     outlinedButtonTheme: OutlinedButtonThemeData(
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all(
-                          const Size(300.0, 150.0),
+                          const Size(250.0, 150.0),
                         ),
                         side: MaterialStateProperty.resolveWith(
                           (Set<MaterialState> state) {
@@ -98,7 +114,7 @@ class _SurveyState extends State<Survey> {
                               );
                             }
                             return const BorderSide(
-                              color: Colors.cyan,
+                              color: Color(0xff4682b4),
                             );
                           },
                         ),
@@ -116,7 +132,7 @@ class _SurveyState extends State<Survey> {
                                   );
                             }
                             return Theme.of(context).textTheme.labelLarge?.copyWith(
-                                  color: Colors.cyan,
+                                  color: const Color(0xff4682b4),
                                   fontSize: 25,
                                 );
                           },
@@ -127,7 +143,7 @@ class _SurveyState extends State<Survey> {
                       style: ButtonStyle(
                         textStyle: MaterialStateProperty.all(
                           Theme.of(context).textTheme.labelLarge?.copyWith(
-                                color: Colors.cyan,
+                                color: const Color(0xff4682b4),
                               ),
                         ),
                       ),
@@ -157,7 +173,7 @@ class _SurveyState extends State<Survey> {
                       ),
                     ),
                     colorScheme: ColorScheme.fromSwatch(
-                      primarySwatch: Colors.cyan,
+                      primarySwatch: MaterialColor(0xff4682b4, color),
                     )
                         .copyWith(
                           onPrimary: Colors.white,
@@ -186,6 +202,7 @@ class _SurveyState extends State<Survey> {
     return CustomNavigableTask.fromJson(taskMap);
   }
 
+
   Future<void> saveSurvey(Map<String,dynamic> inputJson) async {
 
     List<String> allSymptoms = ["tremor","speech-difficulty","anxiety","sweating","mood-changes","weakness","balance-problems","slowness-of-movement","reduced-dexterity","numbness","general-stiffness","experience-panic-attack","cloudy-mind","abdominal-discomfort","muscle-cramping","difficulty-getting-out-of-chair","experience-hot-cold","pain","aching"];
@@ -194,7 +211,9 @@ class _SurveyState extends State<Survey> {
 
     arrayMap['survey_id'] = uuid.v4();
 
-    arrayMap["time"] = DateTime.now().toString();
+    arrayMap["time"] = widget.timestamp;
+
+    arrayMap["is_symptoms_from_earlier_time"] = widget.isPreviousTime;
 
     List<SurveyQuestion> results = [];
 
@@ -218,7 +237,7 @@ class _SurveyState extends State<Survey> {
       }
     }
     String body = json.encode(arrayMap);
-
+    print(body);
     Map<String,dynamic> data = storage.getItem('surveys') ?? <String,String>{};
     data[arrayMap['survey_id']] = body;
     await storage.setItem('surveys', data);

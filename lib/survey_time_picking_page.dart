@@ -3,19 +3,20 @@ import 'package:intl/intl.dart';
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinsons_app/survey.dart';
 
 import 'medication_confirmation_page.dart';
 
-class MedicationTimePicking extends StatefulWidget {
-  const MedicationTimePicking({
+class SurveyTimePicking extends StatefulWidget {
+  const SurveyTimePicking({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MedicationTimePicking> createState() => _MedicationTimePickingState();
+  State<SurveyTimePicking> createState() => _SurveyTimePickingState();
 }
 
-class _MedicationTimePickingState extends State<MedicationTimePicking> {
+class _SurveyTimePickingState extends State<SurveyTimePicking> {
   late DateTime _result;
 
   @override
@@ -66,7 +67,7 @@ print(height);
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0.05 * height, 0, 0.1 * height),
                 child: const Text(
-                  'Please enter the time\nyou last took\nyour Parkinson\'s medication',
+                  'Please enter the time\nyou were experiencing\nyour symptoms',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'DMSans-Regular',
@@ -139,12 +140,10 @@ print(height);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RecordMedicationConfirmation(
-                                        justTaken: false,
-                                        timeStamp: timestamp,
-                                        formattedTimeStamp: formattedDateTime,
+                                  builder: (context) => Survey(
+                                        timestamp: timestamp,
+                                        isPreviousTime: true,
                                       )));
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
