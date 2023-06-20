@@ -289,7 +289,7 @@ class _AdminPageState extends State<AdminPage> {
                             int repeatInterval = 0;
 
                             if (dropdownValue == 'Every 30 min') {
-                              repeatInterval = 60;
+                              repeatInterval = 1800;
                             } else if (dropdownValue == 'Every Hour') {
                               repeatInterval = 3600;
                             } else if (dropdownValue == 'Every 2 Hours') {
