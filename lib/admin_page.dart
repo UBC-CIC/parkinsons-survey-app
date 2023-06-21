@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gaimon/gaimon.dart';
 import 'package:localstorage/localstorage.dart';
@@ -164,7 +165,7 @@ class _AdminPageState extends State<AdminPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          labelText: 'User ID',
+                          labelText: 'Patient ID',
                         ),
                       ),
                     ),
@@ -350,40 +351,8 @@ class _AdminPageState extends State<AdminPage> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.done) {
                                 return ElevatedButton(
-                                  onPressed: () async {
-                                    final SharedPreferences prefs = await SharedPreferences.getInstance();
-                                    final String? userID = prefs.getString('userID');
-                                    final String? deviceID = prefs.getString('deviceID');
-                                    final String? trialID = prefs.getString('trialID');
-
-                                    uploadData(deviceID ?? '', userID ?? '', trialID ?? '').then((value) {
-                                      if (value == true) {
-                                        Gaimon.success();
-                                        uploadResult.value = 'success';
-                                        Future.delayed(const Duration(seconds: 2), () async {
-                                          await prefs.setBool('trial_in_progress', false);
-                                          await prefs.setString('deviceID', '');
-                                          await prefs.setString('trialID', '');
-                                          await prefs.setString('userID', '');
-                                          await prefs.setString('notificationFrequency', '');
-                                          await AwesomeNotifications().cancelAll();
-                                          await storage.clear();
-                                          if (context.mounted) {
-                                            Navigator.pushReplacement(
-                                                context, MaterialPageRoute(builder: (context) => const StudyStartPage(), fullscreenDialog: true));
-                                          }
-                                        });
-                                      } else {
-                                        Gaimon.error();
-                                        uploadResult.value = 'failed';
-                                        Future.delayed(const Duration(seconds: 2), () {
-                                          setState(() {
-                                            uploadResult.value = 'none';
-                                            Navigator.pop(context);
-                                          });
-                                        });
-                                      }
-                                    });
+                                  onPressed: (){
+                                    _showAlertDialog(context);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -411,6 +380,75 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
+  _showAlertDialog(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('End current study and upload results?'),
+        content: const Text('This action cannot be undone.'),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            /// This parameter indicates this action is the default,
+            /// and turns the action's text to bold text.
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          CupertinoDialogAction(
+            /// This parameter indicates the action would perform
+            /// a destructive action such as deletion, and turns
+            /// the action's text color to red.
+            isDestructiveAction: true,
+            onPressed: () {
+              handleUpload();
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  handleUpload() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? userID = prefs.getString('userID');
+  final String? deviceID = prefs.getString('deviceID');
+  final String? trialID = prefs.getString('trialID');
+
+  uploadData(deviceID ?? '', userID ?? '', trialID ?? '').then((value) {
+  if (value == true) {
+  Gaimon.success();
+  uploadResult.value = 'success';
+  Future.delayed(const Duration(seconds: 2), () async {
+  await prefs.setBool('trial_in_progress', false);
+  await prefs.setString('deviceID', '');
+  await prefs.setString('trialID', '');
+  await prefs.setString('userID', '');
+  await prefs.setString('notificationFrequency', '');
+  await AwesomeNotifications().cancelAll();
+  await storage.clear();
+  if (context.mounted) {
+  Navigator.pushReplacement(
+  context, MaterialPageRoute(builder: (context) => const StudyStartPage(), fullscreenDialog: true));
+  }
+  });
+  } else {
+  Gaimon.error();
+  uploadResult.value = 'failed';
+  Future.delayed(const Duration(seconds: 2), () {
+  setState(() {
+  uploadResult.value = 'none';
+  Navigator.pop(context);
+  });
+  });
+  }
+  });
+}
+
   Future<bool> uploadData(String deviceID, String userID, String trialID) async {
     showDialog(
       barrierDismissible: false,
@@ -424,6 +462,7 @@ class _AdminPageState extends State<AdminPage> {
     List<String> studySurveys = [];
 
     surveyMap.forEach((key, value) {
+      print(value);
       Map<String, dynamic> survey = json.decode(value);
       survey['patient_id'] = userID ?? '';
       survey['device_id'] = deviceID ?? '';
@@ -445,33 +484,31 @@ class _AdminPageState extends State<AdminPage> {
     summaryMap['device_id'] = deviceID;
     summaryMap['medication_times'] = medicationTimes;
     summaryMap['study_surveys'] = studySurveys;
-
     uploadMap['study_summary'] = summaryMap;
 
     final httpResponse = await getUploadURL(studyID, userID, trialID);
-    if(httpResponse.statusCode==200){
+    if (httpResponse.statusCode == 200) {
       final body = json.decode(httpResponse.body);
-      if(body==null || body["uploadURL"]==null) {
+      if (body == null || body["uploadURL"] == null) {
         return false;
       }
       final uploadURL = body["uploadURL"];
-      http.put(
+      final uploadResponse = await http.put(
         Uri.parse(uploadURL),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
         body: json.encode(uploadMap).codeUnits,
-      ).then((value) {
-        if(value.statusCode==200) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+      );
+
+      if (uploadResponse.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
-    return false;
   }
 
   Future<http.Response> getUploadURL(String studyID, String userID, String trialID) async {

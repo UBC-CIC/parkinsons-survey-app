@@ -85,7 +85,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          labelText: 'User ID',
+                          labelText: 'Patient ID',
                         ),
                       ),
                     ),

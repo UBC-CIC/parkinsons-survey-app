@@ -46,6 +46,7 @@ class _SurveyNowPreviousState extends State<SurveyNowPrevious> {
     double width = MediaQuery.of(context).size.width;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: false,

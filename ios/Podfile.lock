@@ -5,6 +5,8 @@ PODS:
   - camera_avfoundation (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - gaimon (0.0.1):
+    - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
   - IosAwnCore (0.7.5-dev.2)
@@ -21,6 +23,7 @@ DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - Flutter (from `Flutter`)
+  - gaimon (from `.symlinks/plugins/gaimon/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -37,6 +40,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
   Flutter:
     :path: Flutter
+  gaimon:
+    :path: ".symlinks/plugins/gaimon/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   path_provider_foundation:
@@ -50,6 +55,7 @@ SPEC CHECKSUMS:
   awesome_notifications: b1298b690fcfc25bb885af65056e92cec04ad9c9
   camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  gaimon: 7688c586f38dcc4782e6fe26f648057d280a9d8b
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   IosAwnCore: f91ab77c879277e40e57924c3c9699fafcfc3c02
   path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8

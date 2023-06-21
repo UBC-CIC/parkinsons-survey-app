@@ -39,6 +39,7 @@ class _RecordMedicationConfirmationState extends State<RecordMedicationConfirmat
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if(snapshot.connectionState == ConnectionState.done) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
@@ -55,13 +56,20 @@ class _RecordMedicationConfirmationState extends State<RecordMedicationConfirmat
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.fromLTRB(10, 0.25 * height, 10, 0.1 * height),
-                  child: Text(
-                    widget.justTaken? 'Please confirm that you have\njust taken your Parkinson\'s medication':'Please confirm that your most recent\nParkinson\'s medication intake was at\n${widget.formattedTimeStamp}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontFamily: 'DMSans-Medium',
-                      color: Color(0xff2A2A2A),
-                      fontSize: 22,
+                  child: SizedBox(
+                    width: 0.7*width,
+                    height: 0.15*height,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        widget.justTaken? 'Please confirm that you have\njust taken your Parkinson\'s medication':'Please confirm that your most recent\nParkinson\'s medication intake was at\n${widget.formattedTimeStamp}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: 'DMSans-Regular',
+                          color: Color(0xff2A2A2A),
+                          fontSize: 40,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -78,6 +86,7 @@ class _RecordMedicationConfirmationState extends State<RecordMedicationConfirmat
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
+                              elevation: 0,
                                 backgroundColor: const Color(0xffECEDF0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0.15*width),
@@ -111,7 +120,8 @@ class _RecordMedicationConfirmationState extends State<RecordMedicationConfirmat
 
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xff0D85C9),
+                              elevation: 0,
+                                backgroundColor: const Color(0xff4682B4),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0.15*width),
                                   //border radius equal to or more than 50% of width

@@ -49,6 +49,7 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
 print(width);
 print(height);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -65,7 +66,7 @@ print(height);
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0.05 * height, 0, 0.1 * height),
+                padding: EdgeInsets.fromLTRB(0, 0.05 * height, 0, 0.0 * height),
                 child: const Text(
                   'Please enter the time\nyou were experiencing\nyour symptoms',
                   textAlign: TextAlign.center,
@@ -78,7 +79,7 @@ print(height);
               ),
               SizedBox(
                 width: double.infinity,
-                height: 0.5*height,
+                height: 0.6*height,
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
                   onDateTimeChanged: (DateTime newTime) {
@@ -89,7 +90,7 @@ print(height);
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

@@ -48,6 +48,7 @@ class _ParkinsonsAppState extends State<ParkinsonsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: ParkinsonsApp.navigatorKey,
       theme: ThemeData(
         primarySwatch: Colors.blue,
