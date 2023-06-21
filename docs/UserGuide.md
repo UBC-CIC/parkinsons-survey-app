@@ -27,17 +27,17 @@ To start the study, select the "Start Study" button. The app will navigate to th
 
 |   |   |
 |---|---|
-|<img src="../assets/patient_home_page.png" width="70%">| When a patient first opens the app, the app will display the **Patient Home Page**. From this page, patients can record their symptoms or record their medication time. |
+|<img src="../assets/patient_home_page.png" width="53%">| When a patient first opens the app, the app will display the **Patient Home Page**. From this page, patients can record their symptoms or record their medication time. |
 
 ### Recording Symptoms
 
 |   |   |
 |---|---|
-|<img src="../assets/now_or_previous_survey.png" width="70%">| To record symptoms, patients can select the **Record Symptom** button. When pressed, the app will ask when the symptoms were expeienced.  |
-|<img src="../assets/survey_time_pick.png" width="70%">| If the **At a Previous Time** option is selected, patients will be able to select the time at which they experienced their symptoms. **The time corresponds to the date of the current day.** |
-|<img src="../assets/survey_start.png" width="70%">| After the time at which the patient experienced their symptoms is confirmed, the app will navigate to the **Survey Start Page**. To start the survey, select the **Begin** button.  |
-|<img src="../assets/survey_selected.png" width="70%">| A set of four pages containing a total of 19 symptoms will be presented in the survey. Patients can select the symptoms they have experienced on each page or **None of the above** if they have not experienced any of the symptoms listed. To navigate through the survey, patients can select the **NEXT** button at the bottom to proceed to the next page, or the **back arrow** in the top-left corner to navigate to the previous page.|
-|<img src="../assets/survey_complete.png" width="70%">| Once the survey is completed, patients can select the **DONE** button to save their results and navigate back to the **Patient Home Page**.|
+|<img src="../assets/now_or_previous_survey.png" width="100%">| To record symptoms, patients can select the **Record Symptom** button. When pressed, the app will ask when the symptoms were expeienced.  |
+|<img src="../assets/survey_time_pick.png" width="100%">| If the **At a Previous Time** option is selected, patients will be able to select the time at which they experienced their symptoms. **The time corresponds to the date of the current day.** |
+|<img src="../assets/survey_start.png" width="100%">| After the time at which the patient experienced their symptoms is confirmed, the app will navigate to the **Survey Start Page**. To start the survey, select the **Begin** button.  |
+|<img src="../assets/survey_selected.png" width="100%">| A set of four pages containing a total of 19 symptoms will be presented in the survey. Patients can select the symptoms they have experienced on each page or **None of the above** if they have not experienced any of the symptoms listed. To navigate through the survey, patients can select the **NEXT** button at the bottom to proceed to the next page, or the **back arrow** in the top-left corner to navigate to the previous page.|
+|<img src="../assets/survey_complete.png" width="100%">| Once the survey is completed, patients can select the **DONE** button to save their results and navigate back to the **Patient Home Page**.|
 
 
 ### Recording Medication Times
@@ -54,12 +54,12 @@ To start the study, select the "Start Study" button. The app will navigate to th
 
 |   |   |
 |---|---|
-|<img src="../assets/patient_home_page.PNG" width="70%">| Administrators can access the admin page by pressing the settings button in the top-right corner of the admin page. |
-|<img src="../assets/admin_passcode.PNG" width="70%">| Administrators will need to enter the passcode set in the **Study Setup** page to unlock the admin page. |
-|<img src="../assets/admin_page.PNG" width="70%">| In the admin page, administrators can edit the IDs or notification frequency of the current study. To save the changes, select the **Save** button which will be highilighted in blue when changes are made.  |
+|<img src="../assets/patient_home_page.png" width="70%">| Administrators can access the admin page by pressing the settings button in the top-right corner of the admin page. |
+|<img src="../assets/admin_passcode.png" width="70%">| Administrators will need to enter the passcode set in the **Study Setup** page to unlock the admin page. |
+|<img src="../assets/admin_page.png" width="70%">| In the admin page, administrators can edit the IDs or notification frequency of the current study. To save the changes, select the **Save** button which will be highilighted in blue when changes are made.  |
 
 ### Ending a Study
 |   |   |
 |---|---|
-|<img src="../assets/end_study.png" width="70%"> | To end a study, administrators can select the **End Study** button. A warning will appear and adminstrators can select **Yes** to proceed with the action or **No** to go back. |
-|<img src="../assets/upload.png" width="70%"> | If **Yes** is selected, the app will attempt to upload the study results and end the study. If it is succesful, a checkmark will appear on the screen and the app will reset all settings and navigate to the setup page. If the upload is unsuccessful, an **X** will appear on the screen. |
+|<img src="../assets/end_study.png" width="85%"> | To end a study, administrators can select the **End Study** button. A warning will appear and adminstrators can select **Yes** to proceed with the action or **No** to go back. |
+|<img src="../assets/upload.png" width="85%"> | If **Yes** is selected, the app will attempt to upload the study results and end the study. If it is succesful, a checkmark will appear on the screen and the app will reset all settings and navigate to the setup page. If the upload is unsuccessful, an **X** will appear on the screen. |
