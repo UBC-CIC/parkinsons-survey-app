@@ -15,9 +15,9 @@
 
 |   |   |
 |---|---|
-|<img src="../assets/study_setup.png" width="70%">| When the app is first opened administrators will be able to enter the IDs corresponding to the study they will conduct. The "Trial ID" will be used to group the studies of each patient into the same "Trial" folder in storage. The "Wearbale Device ID" is the ID of the device that will be used to monitor the patient's health (i.e. Empatica Device ID). |
-|<img src="../assets/select_notifications.png" width="70%">| Administrators can select the frequency at which notifications are sent to the patient in the dropdown. If no notifications are needed, researchers can select **No Notifications** in the dropdown. Repeating notifications are started at the time the administrator starts the study.  |
-|<img src="../assets/confirm_new_passcode.png" width="70%">| **When the app is first installed, the default passcode will be set to 1234**. To set a new passcode, administrators can select the **Reset Passcode** button and enter a new passcode. |
+|<img src="../assets/study_setup.png" width="85%">| When the app is first opened administrators will be able to enter the IDs corresponding to the study they will conduct. The "Trial ID" will be used to group the studies of each patient into the same "Trial" folder in storage. The "Wearbale Device ID" is the ID of the device that will be used to monitor the patient's health (i.e. Empatica Device ID). |
+|<img src="../assets/select_notifications.png" width="85%">| Administrators can select the frequency at which notifications are sent to the patient in the dropdown. If no notifications are needed, researchers can select **No Notifications** in the dropdown. Repeating notifications are started at the time the administrator starts the study.  |
+|<img src="../assets/confirm_new_passcode.png" width="85%">| **When the app is first installed, the default passcode will be set to 1234**. To set a new passcode, administrators can select the **Reset Passcode** button and enter a new passcode. |
 
 To start the study, select the "Start Study" button. The app will navigate to the **Patient Home Page**.
 
@@ -54,12 +54,12 @@ To start the study, select the "Start Study" button. The app will navigate to th
 
 |   |   |
 |---|---|
-|<img src="../assets/patient_home_page.png" width="70%">| Administrators can access the admin page by pressing the settings button in the top-right corner of the admin page. |
-|<img src="../assets/admin_passcode.png" width="70%">| Administrators will need to enter the passcode set in the **Study Setup** page to unlock the admin page. |
-|<img src="../assets/admin_page.png" width="70%">| In the admin page, administrators can edit the IDs or notification frequency of the current study. To save the changes, select the **Save** button which will be highilighted in blue when changes are made.  |
+|<img src="../assets/patient_home_page.png" width="65%">| Administrators can access the admin page by pressing the settings button in the top-right corner of the admin page. |
+|<img src="../assets/admin_passcode.png" width="65%">| Administrators will need to enter the passcode set in the **Study Setup** page to unlock the admin page. |
+|<img src="../assets/admin_page.png" width="65%">| In the admin page, administrators can edit the IDs or notification frequency of the current study. To save the changes, select the **Save** button which will be highilighted in blue when changes are made.  |
 
 ### Ending a Study
 |   |   |
 |---|---|
-|<img src="../assets/end_study.png" width="85%"> | To end a study, administrators can select the **End Study** button. A warning will appear and adminstrators can select **Yes** to proceed with the action or **No** to go back. |
-|<img src="../assets/upload.png" width="85%"> | If **Yes** is selected, the app will attempt to upload the study results and end the study. If it is succesful, a checkmark will appear on the screen and the app will reset all settings and navigate to the setup page. If the upload is unsuccessful, an **X** will appear on the screen. |
+|<img src="../assets/end_study.png" width="80%"> | To end a study, administrators can select the **End Study** button. A warning will appear and adminstrators can select **Yes** to proceed with the action or **No** to go back. |
+|<img src="../assets/upload.png" width="80%"> | If **Yes** is selected, the app will attempt to upload the study results and end the study. If it is succesful, a checkmark will appear on the screen and the app will reset all settings and navigate to the setup page. If the upload is unsuccessful, an **X** will appear on the screen. |
