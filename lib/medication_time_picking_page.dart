@@ -114,13 +114,13 @@ print(height);
                               //border radius equal to or more than 50% of width
                             )),
                         child: SizedBox(
-                          width: 0.3 * width,
+                          width: 0.12 * width,
                           height: 0.1 * height,
-                          child: FittedBox(
+                          child: const FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
                               'Back',
-                              style: TextStyle(fontSize: 0.04*width, fontFamily: 'DMSans-Regular', color: Colors.black),
+                              style: TextStyle(fontSize: 35, fontFamily: 'DMSans-Regular', color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -161,7 +161,7 @@ print(height);
                             fit: BoxFit.scaleDown,
                             child: Text(
                               'Continue',
-                              style: TextStyle(fontSize: 30, fontFamily: 'DMSans-Regular'),
+                              style: TextStyle(fontSize: 35, fontFamily: 'DMSans-Regular'),
                               textAlign: TextAlign.center,
                             ),
                           ),

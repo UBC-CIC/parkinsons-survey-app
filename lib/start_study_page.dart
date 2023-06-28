@@ -1,7 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:parkinsons_app/patient_home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,14 +19,18 @@ class _StudyStartPageState extends State<StudyStartPage> {
 
   String dropdownValue = list[2];
 
-  final userIDController = TextEditingController();
+  final patientIDController = TextEditingController();
   final trialIDController = TextEditingController();
   final deviceIDController = TextEditingController();
+
+  bool patientIDValid = true;
+  bool trialIDValid = true;
+  bool deviceIDValid = true;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    userIDController.dispose();
+    patientIDController.dispose();
     trialIDController.dispose();
     deviceIDController.dispose();
     super.dispose();
@@ -47,18 +50,15 @@ class _StudyStartPageState extends State<StudyStartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Icon(
-                        Icons.assignment_outlined,
-                        size: 80,
-                      )),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
-                    child: Text(
-                      'Parkinson\'s Symptom\nSurvey Tool',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontFamily: 'DMSans-Medium', fontSize: 25),
+                  const SizedBox(
+                    width: 340,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 30),
+                      child: Text(
+                        'Parkinson\'s Symptom\nSurvey Tool',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(fontFamily: 'DMSans-Bold', fontSize: 30, color: Color(0xff4682B4),),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -79,13 +79,25 @@ class _StudyStartPageState extends State<StudyStartPage> {
                     child: SizedBox(
                       width: 340,
                       child: TextField(
-                        controller: userIDController,
+                        onChanged: (String s){
+                          if(patientIDController.value.text.isNotEmpty){
+                            setState(() {
+                              patientIDValid = true;
+                            });
+                          } else {
+                            setState(() {
+                              patientIDValid = false;
+                            });
+                          }
+                        },
+                        controller: patientIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Patient ID',
+                          errorText: patientIDValid? null : 'Please enter a value',
                         ),
                       ),
                     ),
@@ -95,6 +107,17 @@ class _StudyStartPageState extends State<StudyStartPage> {
                     child: SizedBox(
                       width: 340,
                       child: TextField(
+                        onChanged: (String s){
+                          if(trialIDController.value.text.isNotEmpty){
+                            setState(() {
+                              trialIDValid = true;
+                            });
+                          } else {
+                            setState(() {
+                              trialIDValid = false;
+                            });
+                          }
+                        },
                         controller: trialIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
@@ -102,6 +125,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Trial ID',
+                          errorText: trialIDValid? null : 'Please enter a value',
                         ),
                       ),
                     ),
@@ -111,6 +135,17 @@ class _StudyStartPageState extends State<StudyStartPage> {
                     child: SizedBox(
                       width: 340,
                       child: TextField(
+                        onChanged: (String s){
+                          if(deviceIDController.value.text.isNotEmpty){
+                            setState(() {
+                              deviceIDValid = true;
+                            });
+                          } else {
+                            setState(() {
+                              deviceIDValid = false;
+                            });
+                          }
+                        },
                         controller: deviceIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
@@ -118,6 +153,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Wearable Device ID',
+                          errorText: deviceIDValid? null : 'Please enter a value',
                         ),
                       ),
                     ),
@@ -213,9 +249,28 @@ class _StudyStartPageState extends State<StudyStartPage> {
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () async {
+                          if(patientIDController.text.isEmpty || trialIDController.text.isEmpty || deviceIDController.text.isEmpty) {
+                            if(patientIDController.text.isEmpty) {
+                              setState(() {
+                                patientIDValid = false;
+                              });
+                            }
+                            if(trialIDController.text.isEmpty) {
+                              setState(() {
+                                trialIDValid = false;
+                              });
+                            }
+                            if(deviceIDController.text.isEmpty) {
+                              setState(() {
+                                deviceIDValid = false;
+                              });
+                            }
+
+                          } else {
+
                           final SharedPreferences prefs = await SharedPreferences.getInstance();
                           await prefs.setBool('trial_in_progress', true);
-                          await prefs.setString('userID', userIDController.value.text);
+                          await prefs.setString('userID', patientIDController.value.text);
                           await prefs.setString('trialID', trialIDController.value.text);
                           await prefs.setString('deviceID', deviceIDController.value.text);
                           await prefs.setString('notificationFrequency', dropdownValue);
@@ -261,6 +316,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                               ),
                             );
                           }
+                        }
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,

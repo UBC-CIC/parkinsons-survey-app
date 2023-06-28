@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
@@ -62,11 +63,11 @@ class _RecordMedicationConfirmationState extends State<RecordMedicationConfirmat
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        widget.justTaken? 'Please confirm that you have\njust taken your Parkinson\'s medication':'Please confirm that your most recent\nParkinson\'s medication intake was at\n${widget.formattedTimeStamp}',
+                        widget.justTaken? 'Confirm you have\njust taken your Parkinson\'s medication':'Confirm you have taken\nParkinson\'s medication at\n${widget.formattedTimeStamp}',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontFamily: 'DMSans-Regular',
-                          color: Color(0xff2A2A2A),
+                          color: Color(0xff545456),
                           fontSize: 40,
                         ),
                       ),

@@ -458,11 +458,11 @@ class _AdminPageState extends State<AdminPage> {
       },
     );
 
-    Map<String, dynamic> surveyMap = storage.getItem('surveys') ?? <String, dynamic>{};
+    Map<String, dynamic> storageSurveyMap = storage.getItem('surveys') ?? <String, dynamic>{};
+    Map<String, dynamic> surveyMap = <String, dynamic>{};
     List<String> studySurveys = [];
 
-    surveyMap.forEach((key, value) {
-      print(value);
+    storageSurveyMap.forEach((key, value) {
       Map<String, dynamic> survey = json.decode(value);
       survey['patient_id'] = userID ?? '';
       survey['device_id'] = deviceID ?? '';
@@ -484,6 +484,7 @@ class _AdminPageState extends State<AdminPage> {
     summaryMap['device_id'] = deviceID;
     summaryMap['medication_times'] = medicationTimes;
     summaryMap['study_surveys'] = studySurveys;
+
     uploadMap['study_summary'] = summaryMap;
 
     final httpResponse = await getUploadURL(studyID, userID, trialID);

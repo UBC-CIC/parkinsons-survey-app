@@ -237,7 +237,6 @@ class _SurveyState extends State<Survey> {
       }
     }
     String body = json.encode(arrayMap);
-    print(body);
     Map<String,dynamic> data = storage.getItem('surveys') ?? <String,String>{};
     data[arrayMap['survey_id']] = body;
     await storage.setItem('surveys', data);
