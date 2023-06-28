@@ -46,8 +46,7 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-print(width);
-print(height);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -80,15 +79,35 @@ print(height);
               SizedBox(
                 width: double.infinity,
                 height: 0.6*height,
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.time,
-                  onDateTimeChanged: (DateTime newTime) {
-                    setState(() {
-                      _result = newTime;
-                    });
-                  },
+                child: CupertinoTheme(
+                  data: const CupertinoThemeData(
+                    textTheme: CupertinoTextThemeData(
+                      dateTimePickerTextStyle: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (DateTime newTime) {
+                      setState(() {
+                        _result = newTime;
+                      });
+                    },
+                  ),
                 ),
               ),
+
+                // child: CupertinoDatePicker(
+                //     mode: CupertinoDatePickerMode.time,
+                //     onDateTimeChanged: (DateTime newTime) {
+                //       setState(() {
+                //         _result = newTime;
+                //       });
+                //     },
+                //   ),
+                // ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Row(

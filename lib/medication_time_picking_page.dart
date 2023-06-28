@@ -65,27 +65,37 @@ print(height);
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0.05 * height, 0, 0.0 * height),
+                padding: EdgeInsets.fromLTRB(10, 0.05 * height, 10, 0.0 * height),
                 child: const Text(
-                  'Please enter the time\nyou last took\nyour Parkinson\'s medication',
+                  'Please enter the\ntime you took\nyour Parkinson\'s medication',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'DMSans-Regular',
                     color: Color(0xff2A2A2A),
-                    fontSize: 28,
+                    fontSize: 32,
                   ),
                 ),
               ),
               SizedBox(
                 width: double.infinity,
                 height: 0.6*height,
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.time,
-                  onDateTimeChanged: (DateTime newTime) {
-                    setState(() {
-                      _result = newTime;
-                    });
-                  },
+                child: CupertinoTheme(
+                  data: const CupertinoThemeData(
+                    textTheme: CupertinoTextThemeData(
+                      dateTimePickerTextStyle: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (DateTime newTime) {
+                      setState(() {
+                        _result = newTime;
+                      });
+                    },
+                  ),
                 ),
               ),
               Padding(

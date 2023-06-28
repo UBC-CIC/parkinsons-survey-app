@@ -54,14 +54,14 @@ class _MedicationNowPreviousState extends State<MedicationNowPrevious> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0.0 * height, 0, 0.0 * height),
+                padding: EdgeInsets.fromLTRB(10, 0.0 * height, 10, 0.0 * height),
                 child: const Text(
-                  'When did you last take\n your Parkinson\'s medication?',
+                  'When did you take\n your Parkinson\'s medication?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'DMSans-Regular',
                     color: Color(0xff2A2A2A),
-                    fontSize: 28,
+                    fontSize: 30,
                   ),
                 ),
               ),
