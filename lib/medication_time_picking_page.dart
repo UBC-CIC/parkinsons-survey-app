@@ -45,8 +45,7 @@ class _MedicationTimePickingState extends State<MedicationTimePicking> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-print(width);
-print(height);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -60,7 +59,8 @@ print(height);
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
-        body: SingleChildScrollView(
+        body: SizedBox(
+          height: height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -72,29 +72,35 @@ print(height);
                   style: TextStyle(
                     fontFamily: 'DMSans-Regular',
                     color: Color(0xff2A2A2A),
-                    fontSize: 32,
+                    fontSize: 30,
                   ),
                 ),
               ),
-              SizedBox(
-                width: double.infinity,
-                height: 0.6*height,
-                child: CupertinoTheme(
-                  data: const CupertinoThemeData(
-                    textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 90),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 200,
+                  child: Transform.scale(
+                    scale: 1.6,
+                    child: CupertinoTheme(
+                      data: const CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.time,
+                        onDateTimeChanged: (DateTime newTime) {
+                          setState(() {
+                            _result = newTime;
+                          });
+                        },
                       ),
                     ),
-                  ),
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.time,
-                    onDateTimeChanged: (DateTime newTime) {
-                      setState(() {
-                        _result = newTime;
-                      });
-                    },
                   ),
                 ),
               ),
@@ -108,13 +114,7 @@ print(height);
                       height: 0.1 * height,
                       child: ElevatedButton(
                         onPressed: () {
-                          String timestamp = dateTimeToString(_result);
-                          if (kDebugMode) {
-                            print(timestamp);
-                          }
-                          String formattedDateTime = formatDateTime(_result);
                           Navigator.pop(context);
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
@@ -155,7 +155,6 @@ print(height);
                                         timeStamp: timestamp,
                                         formattedTimeStamp: formattedDateTime,
                                       )));
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,

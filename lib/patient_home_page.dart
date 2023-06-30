@@ -1,13 +1,13 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:parkinsons_app/admin_page.dart';
-import 'package:parkinsons_app/medication_confirmation_page.dart';
 import 'package:parkinsons_app/medication_now_or_previous.dart';
-import 'package:parkinsons_app/survey.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:parkinsons_app/survey_now_or_previous.dart';
-import 'package:parkinsons_app/survey_time_picking_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:survey_kit/survey_kit.dart';
 
 class PatientHomePage extends StatefulWidget {
   const PatientHomePage({
@@ -99,6 +99,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 height: 0.2*height,
                 child: ElevatedButton(
                   onPressed: () async {
+                    getAllSymptoms();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const MedicationNowPrevious()));
                   },
                   style: ElevatedButton.styleFrom(
@@ -125,5 +126,25 @@ class _PatientHomePageState extends State<PatientHomePage> {
         ),
       ),
     );
+  }
+
+
+  Future<void> getAllSymptoms() async {
+    final taskJson = await rootBundle.loadString('assets/example_json.json');
+    Map<String, dynamic> surveyMap = json.decode(taskJson);
+    final symptomsList = <String>[];
+    List<Map<String,dynamic>> stepList = [];
+    if(surveyMap["steps"]!=null) {
+      stepList = surveyMap["steps"];
+    }
+    for(Map<String,dynamic> step in stepList) {
+      if(step["type"]=="customQuestion") {
+        for(Map<String,String> symptomChoice in step["answerFormat"]["textChoices"]){
+          symptomsList.add(symptomChoice["value"]!);
+        }
+      }
+    }
+    print(symptomsList);
+    return;
   }
 }

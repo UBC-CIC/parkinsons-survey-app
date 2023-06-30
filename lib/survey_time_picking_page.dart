@@ -60,41 +60,48 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
-        body: SingleChildScrollView(
+        body: SizedBox(
+          height: height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0.05 * height, 0, 0.0 * height),
+                padding: EdgeInsets.fromLTRB(20, 0.05 * height, 20, 0.0 * height),
                 child: const Text(
                   'Please enter the time\nyou were experiencing\nyour symptoms',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'DMSans-Regular',
                     color: Color(0xff2A2A2A),
-                    fontSize: 28,
+                    fontSize: 35,
                   ),
                 ),
               ),
-              SizedBox(
-                width: double.infinity,
-                height: 0.6*height,
-                child: CupertinoTheme(
-                  data: const CupertinoThemeData(
-                    textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 90),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 200,
+                  child: Transform.scale(
+                    scale: 1.6,
+                    child: CupertinoTheme(
+                      data: const CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.time,
+                        onDateTimeChanged: (DateTime newTime) {
+                          setState(() {
+                            _result = newTime;
+                          });
+                        },
                       ),
                     ),
-                  ),
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.time,
-                    onDateTimeChanged: (DateTime newTime) {
-                      setState(() {
-                        _result = newTime;
-                      });
-                    },
                   ),
                 ),
               ),
