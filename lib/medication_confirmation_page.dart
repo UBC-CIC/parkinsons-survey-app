@@ -63,7 +63,7 @@ class _RecordMedicationConfirmationState extends State<RecordMedicationConfirmat
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        widget.justTaken? 'Confirm you have\njust taken your Parkinson\'s medication':'Confirm you have taken\nParkinson\'s medication at\n${widget.formattedTimeStamp}',
+                        widget.justTaken? 'Confirm you have\njust taken your\nParkinson\'s medication':'Confirm you have taken\nParkinson\'s medication at\n${widget.formattedTimeStamp}',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontFamily: 'DMSans-Regular',

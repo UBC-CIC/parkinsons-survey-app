@@ -1,6 +1,6 @@
-# Balance Test Mobile App Deployment Guide
+# Parkinson's Symptom Survey App Deployment Guide
 
-<b>Note: This is the deployment guide for the Mobile App of the Balance Test Project. Please ensure you have deployed the [AWS backend and web dashboard](https://github.com/UBC-CIC/balance-test-dashboard/blob/main/docs/DeploymentGuide.md) before proceeding with this guide.</b>
+<b>Note: This is the deployment guide for the Mobile App of the Parkinson's Project. Please ensure you have deployed the [AWS backend](https://github.com/UBC-CIC/parkinsons-backend/blob/main/docs/DeploymentGuide.md) before proceeding with this guide.</b>
 
 | Index                                                      | Description                                               |
 |:-----------------------------------------------------------|:----------------------------------------------------------| 
@@ -17,19 +17,10 @@ The full list of steps to create and deploy a new Flutter application from scrat
  - [Apple Developer Account enrolled in the Apple Developer Program](https://developer.apple.com/programs/enroll/)
 - [GitHub Account](https://github.com/)
 - [Git](https://git-scm.com/) v2.14.1 or later
-- [Node.js](https://nodejs.org/en/download) v14.x or later
-- [npm](https://www.npmjs.com/) v6.14.4 or later
-- [AWS Account](https://aws.amazon.com/account/)
 - [Flutter](https://docs.flutter.dev/get-started/install/macos#get-sdk) version 3.3 or higher
-- [Amplify CLI](https://docs.amplify.aws/cli/start/install/)
 - [Android Studio, version 2020.3.1 (Arctic Fox) or later](https://docs.flutter.dev/get-started/install/macos#install-android-studio)
 - [Xcode](https://docs.flutter.dev/get-started/install/macos#install-xcode)
 - [CocoaPods](https://guides.cocoapods.org/using/getting-started.html#installation) - Additionally, if you are installing on an Apple Silicon Mac, follow step 2 of [this section](https://docs.flutter.dev/get-started/install/macos#deploy-to-ios-devices)
-
-
-
-Please configure your AWS Account user with administrator access in the Amplify CLI by following the instructions found [here](https://docs.amplify.aws/cli/start/install/#configure-the-amplify-cli).
-
 
 
 
@@ -40,7 +31,7 @@ First, clone the github repository onto your machine. To do this:
 2. Open terminal and **cd** into the newly created folder.
 3. Clone the github repository by running the following command:
 ```
-git clone git@github.com:UBC-CIC/balance-test-app.git
+git clone git@github.com:UBC-CIC/parkinsons-survey-app.git
 ```
 
 The code should now be copied into the new folder.
@@ -48,20 +39,23 @@ The code should now be copied into the new folder.
 
 In terminal, **cd** into root directory of the project folder by running the following command from the newly created folder's directory:
 ```
-cd balance-test-app/
+cd parkinsons-survey-app/
 ```
 
-## Import Amplify Project
+## Connect the App to API Gateway
 
-1. In terminal, from your project's root directory, run the following command to import the existing Amplify project in your AWS account
-```
-amplify pull
-```
-2. Select the Amplify project that you created when deploying the web dashboard and backend. Confirm that the ID matches the Amplify project ID found in the AWS console.
-![Xcode Navigator](/assets/amplify_console_page.png)
-3. Choose **Android Studio** as your default editor and **flutter** as the type of app. 
-4. Set the storage location for the configuration file as `./lib/`
-5. Select **Yes** for "Do you plan on modifying this backend?"
+To connect the app to the API Gateway you created when deploying the backend:
+
+1. Create a new Dart file in the **lib/** folder found in the root directory of the app project called **`backend_configuration.dart`**. Please ensure the name of the file is identical. 
+2. Within this new file, you will need to enter two lines:
+
+    `final S3APIKey = '[API_KEY]';`\
+    `final APIUrl = '[API_URL]/presigned-url';`
+
+    Be sure to replace the `[API_KEY]` and `[API_URL]`.\
+    The `[API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend.\
+    The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
+
 
 
 ## Deploy to TestFlight
@@ -75,15 +69,16 @@ The official guide to register your app can be found [here](https://docs.flutter
 1. To get started, sign in to [App Store Connect](https://appstoreconnect.apple.com/) with your Apple Developer account and open the [Identifiers Page](https://developer.apple.com/account/resources/identifiers/list).
 2. Click **+** to create a new Bundle ID.
 3. Select **App ID > App**
-4. Enter a description (name for the Bundle ID) and an **Explicit** unique Bundle Id (e.g. **com.[organization name].balanceTestApp**)
-5. Leave the **Capabilites** and **App Services** as default and click **Continue>Register**
+4. Enter a description (name for the Bundle ID) and an **Explicit** unique Bundle Id (e.g. **com.[organization name].parkinsonsApp**)
+5. Find and select **Push Notifications** under **Capabilites** 
+6. Leave the **App Services** as default and click **Continue>Register**
 
 ### Create an application record on App Store Connect
 1. Now, in the [My Apps](https://appstoreconnect.apple.com/apps) page of App Store Connect, click **+** in the top left corner and select **New App**
 2. Select **iOS** under **Platforms**
 3. Enter a name for the app (e.g. **Balance Test App**)
 4. Select the **Bundle ID** you have just created
-5. Enter a unique ID for your app under **SKU** (e.g. **com.[organization name].balanceTestApp**)
+5. Enter a unique ID for your app under **SKU** (e.g. **com.[organization name].parkinsonsApp**)
 6. Select **Full Access** for **User Access** and click **Create**
 
 ### Beta Test Information
@@ -102,7 +97,7 @@ open ios/Runner.xcworkspace
 3. In the **General** tab, choose a display name for the app
 4. Under **Minimum Deployments**, ensure it is set to iOS 11.0
 5. Head to the **Signing & Capabilities** tab and sign in with your Apple Developer account if have not done so already
-![Xcode settings](/assets/xcode_settings.png)
+![Xcode settings](../assets/xcode_settings.png)
 5. Please **ENTER and VERIFY** the **Bundle Identifier** matches with the Bundle Id created in App Store Connect
 6. In the **Signing & Capabilities** tab, ensure **Automatically manage signing** is checked and Team is set to the account/team associated with your Apple Developer account. Under Bundle Identifier, check that the Bundle Id matches with the Bundle Id created in App Store Connect
 
@@ -113,14 +108,14 @@ open ios/Runner.xcworkspace
 version: 1.0.0+1
 ```
 3. In Xcode, set the Target to be: `Runner > Any iOS Device`
-![Xcode Target](/assets/xcode_deployment_target.png)
+![Xcode Target](../assets/xcode_deployment_target.png)
 4. From the root directory of your project in **Terminal**, run:
 ```
 flutter build ios
 ```
 5. Once the Xcode build is complete, select `Product>Archive` in the Xcode menu bar. Wait for the archive to complete.
 6. Once the archive has completed, a window should appear showing all of your archives. Select the most recent archive and click `Distribute App`
-![Xcode Archives](/assets/xcode_archives.png)
+![Xcode Archives](../assets/xcode_archives.png)
 7. Select `App Store Connect > Upload > Strip Swift Symbols + Upload your app's symbols + Manage Version and Build Number > Automatically manage signing > Upload`
 
 ### Deploy to TestFlight

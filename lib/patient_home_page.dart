@@ -99,7 +99,6 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 height: 0.2*height,
                 child: ElevatedButton(
                   onPressed: () async {
-                    getAllSymptoms();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const MedicationNowPrevious()));
                   },
                   style: ElevatedButton.styleFrom(
@@ -128,23 +127,4 @@ class _PatientHomePageState extends State<PatientHomePage> {
     );
   }
 
-
-  Future<void> getAllSymptoms() async {
-    final taskJson = await rootBundle.loadString('assets/example_json.json');
-    Map<String, dynamic> surveyMap = json.decode(taskJson);
-    final symptomsList = <String>[];
-    List<Map<String,dynamic>> stepList = [];
-    if(surveyMap["steps"]!=null) {
-      stepList = surveyMap["steps"];
-    }
-    for(Map<String,dynamic> step in stepList) {
-      if(step["type"]=="customQuestion") {
-        for(Map<String,String> symptomChoice in step["answerFormat"]["textChoices"]){
-          symptomsList.add(symptomChoice["value"]!);
-        }
-      }
-    }
-    print(symptomsList);
-    return;
-  }
 }

@@ -73,9 +73,6 @@ class _MedicationNowPreviousState extends State<MedicationNowPrevious> {
                   child: ElevatedButton(
                     onPressed: () {
                       String timestamp = dateTimeToString(DateTime.now());
-                      if (kDebugMode) {
-                        print(timestamp);
-                      }
                       Navigator.push(context, MaterialPageRoute(builder: (context) => RecordMedicationConfirmation(justTaken: true, timeStamp: timestamp, formattedTimeStamp: '',)));
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
                     },

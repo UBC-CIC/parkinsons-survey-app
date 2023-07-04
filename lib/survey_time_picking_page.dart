@@ -126,9 +126,6 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
                       child: ElevatedButton(
                         onPressed: () {
                           String timestamp = dateTimeToString(_result);
-                          if (kDebugMode) {
-                            print(timestamp);
-                          }
                           String formattedDateTime = formatDateTime(_result);
                           Navigator.pop(context);
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
@@ -160,9 +157,6 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
                       child: ElevatedButton(
                         onPressed: () {
                           String timestamp = dateTimeToString(_result);
-                          if (kDebugMode) {
-                            print(timestamp);
-                          }
                           String formattedDateTime = formatDateTime(_result);
                           Navigator.push(
                               context,

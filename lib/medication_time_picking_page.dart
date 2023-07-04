@@ -143,9 +143,6 @@ class _MedicationTimePickingState extends State<MedicationTimePicking> {
                       child: ElevatedButton(
                         onPressed: () {
                           String timestamp = dateTimeToString(_result);
-                          if (kDebugMode) {
-                            print(timestamp);
-                          }
                           String formattedDateTime = formatDateTime(_result);
                           Navigator.push(
                               context,

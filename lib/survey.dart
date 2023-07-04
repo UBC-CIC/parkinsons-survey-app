@@ -8,7 +8,6 @@ import 'package:parkinsons_app/custom_navigable_task.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'package:uuid/uuid.dart';
 
-import 'loading_page.dart';
 
 
 class Survey extends StatefulWidget {
@@ -195,17 +194,34 @@ class _SurveyState extends State<Survey> {
 
 
   Future<Task> getJsonTask() async {
-    final taskJson = await rootBundle.loadString('assets/example_json.json');
+    final taskJson = await rootBundle.loadString('assets/survey_json.json');
     final taskMap = json.decode(taskJson);
 
     // return Task.fromJson(taskMap);
     return CustomNavigableTask.fromJson(taskMap);
   }
 
+  Future<List<String>> getAllSymptoms() async {
+    final taskJson = await rootBundle.loadString('assets/survey_json.json');
+    Map<String, dynamic> surveyMap = json.decode(taskJson);
+    List<String> symptomsList = [];
+    List<dynamic> stepList = [];
+    if(surveyMap["steps"]!=null) {
+      stepList = surveyMap["steps"];
+    }
+    for(Map<String,dynamic> step in stepList) {
+      if(step["type"]=="customQuestion") {
+        for(Map<String,dynamic> symptomChoice in step["answerFormat"]["textChoices"]){
+          symptomsList.add(symptomChoice["value"]!);
+        }
+      }
+    }
+    return symptomsList;
+  }
 
   Future<void> saveSurvey(Map<String,dynamic> inputJson) async {
 
-    List<String> allSymptoms = ["tremor","speech-difficulty","anxiety","sweating","mood-changes","weakness","balance-problems","slowness-of-movement","reduced-dexterity","numbness","general-stiffness","experience-panic-attack","cloudy-mind","abdominal-discomfort","muscle-cramping","difficulty-getting-out-of-chair","experience-hot-cold","pain","aching"];
+    List<String> allSymptoms = await getAllSymptoms();
 
     final Map<String, dynamic> arrayMap = {};
 

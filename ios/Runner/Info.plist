@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app accesses the file system in order to store surveys locally but does actually use the camera in any way.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app accesses the file system in order to store surveys locally.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

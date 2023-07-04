@@ -75,9 +75,6 @@ class _SurveyNowPreviousState extends State<SurveyNowPrevious> {
                   child: ElevatedButton(
                     onPressed: () {
                       String timestamp = dateTimeToString(DateTime.now());
-                      if (kDebugMode) {
-                        print(timestamp);
-                      }
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Survey(timestamp: timestamp, isPreviousTime: false,)));
                     },
                     style: ElevatedButton.styleFrom(

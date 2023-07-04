@@ -79,12 +79,9 @@ class _AdminPageState extends State<AdminPage> {
     }
     final String? notificationFrequency = prefs.getString('notificationFrequency');
     if (notificationFrequency != null) {
-      print(notificationFrequency);
       setState(() {
-        print(getDropdownIndex(notificationFrequency));
         dropdownValue = list[getDropdownIndex(notificationFrequency!)];
       });
-      print(dropdownValue);
       storedNotificationFrequency = list[getDropdownIndex(notificationFrequency!)];
     } else {
       storedNotificationFrequency = '';
@@ -156,7 +153,6 @@ class _AdminPageState extends State<AdminPage> {
                       width: 320,
                       child: TextField(
                         onChanged: (String? s) {
-                          print('changed');
                           updateSaveButtonForIDs();
                         },
                         controller: userIDController,
@@ -176,7 +172,6 @@ class _AdminPageState extends State<AdminPage> {
                       width: 320,
                       child: TextField(
                         onChanged: (String? s) {
-                          print('changed');
                           updateSaveButtonForIDs();
                         },
                         controller: trialIDController,
@@ -196,7 +191,6 @@ class _AdminPageState extends State<AdminPage> {
                       width: 320,
                       child: TextField(
                         onChanged: (String? s) {
-                          print('changed');
                           updateSaveButtonForIDs();
                         },
                         controller: deviceIDController,
