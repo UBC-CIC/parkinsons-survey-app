@@ -1,6 +1,8 @@
 # Parkinson's Symptom Survey App
-Start by following the instructions [here](https://github.com/UBC-CIC/balance-test-dashboard/blob/main/docs/DeploymentGuide.md) to deploy the backend and web dashboard of the Balance Test project. The Balance Test Mobile App allows you to record IMU sensor data during Balance Test movements and view statistics and analytics of previously recorded tests. 
 
+The Parkinson's Symptom Survey Mobile App allows researchers to collect Parkinson's patient symptoms and the times Parkinson's medication is taken. The data collected is stored and processed with AWS Services.
+
+Start by following the instructions [here](https://github.com/UBC-CIC/parkinsons-backend/blob/main/docs/DeploymentGuide.md) to deploy the backend of the Parkinson's Symptom Survey project. 
 |Index| Description|
 |:----------------|:-----------|
 | [Screenshots](#screenshots)         |     View screenshots of the application.    |
