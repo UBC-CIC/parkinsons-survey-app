@@ -6,7 +6,8 @@
 |:-----------------------------------------------------------|:----------------------------------------------------------| 
 | [Dependencies](#Dependencies)                              | Required services and tools for deployment                                 |
 | [Clone the Repository](#clone-the-repository)              | How to clone this repository                              |
-| [Import Amplify Project](#import-amplify-project)| Import the existing Amplify project           |
+| [Connect the App to API Gateway](#connect-the-app-to-api-gateway)| Connect the app to the backend of this project           |
+| [Update the Survey (Optional)](#update-the-survey-optional)| Make changes to the survey content and ordering           |
 | [Deploy to TestFlight](#deploy-to-testflight)              | Deploy your app to TestFlight for testers to use          |
 
 
@@ -56,6 +57,58 @@ To connect the app to the API Gateway you created when deploying the backend:
     The `[API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend.\
     The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
 
+## Update the Survey (Optional)
+
+To update the survey symptom names or ordering open the [survey_json.json](../assets/survey_json.json) file located in the assets folder. 
+
+Each page of the survey is represented by JSON object in the `"steps"` array of the JSON file. Surveys will need to start with an `"intro"` and `"end"` step in the same format as the existing JSON file. 
+
+Custom multiple choice question pages can be created with the a JSON object in the following format: 
+
+```
+{
+    "stepIdentifier": {
+        "id": "4"
+    },
+    "type": "customQuestion",
+    "title": "Which symptoms are you experiencing?",
+    "text": "Multiple symptoms can be selected",
+    "answerFormat": {
+        "type": "multiple",
+        "textChoices": [
+            {
+                "text": "Numbness",
+                "value": "numbness"
+            },
+            {
+                "text": "Sweating",
+                "value": "sweating"
+            },
+            {
+                "text": "Experience hot or cold",
+                "value": "experience-hot-cold"
+            },
+            {
+                "text": "Pain",
+                "value": "pain"
+            },
+            {
+                "text": "Aching",
+                "value": "aching"
+            }
+        ]
+    }
+ },
+```
+
+The `"stepIdentifier"` should be unique from the other steps in the JSON file. 
+
+The `"type"` should be set to `"customQuestion"` and `"answerFormat"` `"type"` should be set to `"multiple"` to create multiple choice questions with the 'None of the above' option. * 
+
+Within the `"textChoices"`, the `"text"` represents the name of the symptom displayed in the app. The `"value"` represents the symptom name stored in the JSON and CSV files in the S3 buckets.
+
+
+*NOTE: Alternative types of questions (ie) can be entered into this JSON file. These alternative question types should follow the JSON formats found in the [Flutter Survey Kit Library Example](https://pub.dev/packages/survey_kit/example). **However aditional changes in the [survey.dart file](../lib/survey.dart) will be required to format and save the survey results from alternative question types.**
 
 
 ## Deploy to TestFlight
