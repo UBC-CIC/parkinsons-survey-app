@@ -455,12 +455,14 @@ class _AdminPageState extends State<AdminPage> {
     Map<String, dynamic> storageSurveyMap = storage.getItem('surveys') ?? <String, dynamic>{};
     Map<String, dynamic> surveyMap = <String, dynamic>{};
     List<String> studySurveys = [];
+    String studyID = uuid.v4();
 
     storageSurveyMap.forEach((key, value) {
       Map<String, dynamic> survey = json.decode(value);
       survey['patient_id'] = userID ?? '';
       survey['device_id'] = deviceID ?? '';
       survey['trial_id'] = trialID ?? '';
+      survey['study_id'] = studyID;
       studySurveys.add(survey['survey_id']);
       surveyMap[key] = survey;
     });
@@ -471,7 +473,6 @@ class _AdminPageState extends State<AdminPage> {
     List<String> medicationTimes = jsonMedicationTimes.map((e) => e.toString()).toList();
 
     Map<String, dynamic> summaryMap = {};
-    String studyID = uuid.v4();
     summaryMap['study_id'] = studyID;
     summaryMap['trial_id'] = trialID;
     summaryMap['patient_id'] = userID;

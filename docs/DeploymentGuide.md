@@ -50,11 +50,11 @@ To connect the app to the API Gateway you created when deploying the backend:
 1. Create a new Dart file in the **lib/** folder found in the root directory of the app project called **`backend_configuration.dart`**. Please ensure the name of the file is identical. 
 2. Within this new file, you will need to enter two lines:
 
-    `final S3APIKey = '[API_KEY]';`\
+    `final S3APIKey = '[YOUR_API_KEY]';`\
     `final APIUrl = '[API_URL]/presigned-url';`
 
-    Be sure to replace the `[API_KEY]` and `[API_URL]`.\
-    The `[API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend.\
+    Be sure to replace the `[YOUR_API_KEY]` and `[API_URL]`.\
+    The `[YOUR_API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend.\
     The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
 
 ## Update the Survey (Optional)
