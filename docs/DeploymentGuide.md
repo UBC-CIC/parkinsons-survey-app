@@ -49,13 +49,20 @@ To connect the app to the API Gateway you created when deploying the backend:
 
 1. Create a new Dart file in the **lib/** folder found in the root directory of the app project called **`backend_configuration.dart`**. Please ensure the name of the file is identical. 
 2. Within this new file, you will need to enter two lines:
+```
+   1    final S3APIKey = '[YOUR_API_KEY]';
+   2    final APIUrl = '[API_URL]/presigned-url';
 
-    `final S3APIKey = '[YOUR_API_KEY]';`\
-    `final APIUrl = '[API_URL]/presigned-url';`
 
-    Be sure to replace the `[YOUR_API_KEY]` and `[API_URL]`.\
-    The `[YOUR_API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend. If needed this key cn be viewed and retrieved from the AWS Secrets Manager console under `AWS Secrets Manager > Secrets > APIKey > Secret Value > Retrieve Secret Value`\
-    The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
+```
+
+Be sure to replace the `[YOUR_API_KEY]` and `[API_URL]`.
+
+The `[YOUR_API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend. If needed this key cn be viewed and retrieved from the AWS Secrets Manager console under `AWS Secrets Manager > Secrets > APIKey > Secret Value > Retrieve Secret Value`
+
+The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
+
+**Ensure that this file is excluded from version control.**
 
 ## Update the Survey (Optional)
 
