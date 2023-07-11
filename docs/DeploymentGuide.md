@@ -19,7 +19,7 @@ The full list of steps to create and deploy a new Flutter application from scrat
 - [GitHub Account](https://github.com/)
 - [Git](https://git-scm.com/) v2.14.1 or later
 - [Flutter](https://docs.flutter.dev/get-started/install/macos#get-sdk) version 3.3 or higher
-- [Android Studio, version 2020.3.1 (Arctic Fox) or later](https://docs.flutter.dev/get-started/install/macos#install-android-studio)
+- IDE of your choice (For development we recommend: [Android Studio, version 2020.3.1 (Arctic Fox) or later](https://docs.flutter.dev/get-started/install/macos#install-android-studio))
 - [Xcode](https://docs.flutter.dev/get-started/install/macos#install-xcode)
 - [CocoaPods](https://guides.cocoapods.org/using/getting-started.html#installation) - Additionally, if you are installing on an Apple Silicon Mac, follow step 2 of [this section](https://docs.flutter.dev/get-started/install/macos#deploy-to-ios-devices)
 
@@ -164,7 +164,7 @@ open ios/Runner.xcworkspace
 
 ### Create a Build
 1. In Xcode, in the General tab under Identity, check that the Version number is set to 1.0.0 and the Build number is set to 1 **for your first deployment**. For future deployments, increment the Version number and reset the Build number for major updates (e.g. 1.0.1+1). For minor updates, incrementing just the Build number is sufficient (e.g. 1.0.0+2). 
-2. In Android Studio, open the **pubspec.yaml** file located in the root directory of your project. Set the version and build number located near the top of the file to match with the version and build number of the current deployment and save the file:
+2. In your IDE, open the **pubspec.yaml** file located in the root directory of your project. Set the version and build number located near the top of the file to match with the version and build number of the current deployment and save the file:
 ```yaml
 version: 1.0.0+1
 ```
