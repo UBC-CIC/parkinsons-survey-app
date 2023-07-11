@@ -54,7 +54,7 @@ To connect the app to the API Gateway you created when deploying the backend:
     `final APIUrl = '[API_URL]/presigned-url';`
 
     Be sure to replace the `[YOUR_API_KEY]` and `[API_URL]`.\
-    The `[YOUR_API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend.\
+    The `[YOUR_API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend. If needed this key cn be viewed and retrieved from the AWS Secrets Manager console under `AWS Secrets Manager > Secrets > APIKey > Secret Value > Retrieve Secret Value`\
     The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
 
 ## Update the Survey (Optional)
@@ -109,6 +109,7 @@ Within the `"textChoices"`, the `"text"` represents the name of the symptom disp
 
 
 *NOTE: Alternative types of questions (ie) can be entered into this JSON file. These alternative question types should follow the JSON formats found in the [Flutter Survey Kit Library Example](https://pub.dev/packages/survey_kit/example). **However aditional changes in the [survey.dart file](../lib/survey.dart) will be required to format and save the survey results from alternative question types.**
+
 
 
 ## Deploy to TestFlight
