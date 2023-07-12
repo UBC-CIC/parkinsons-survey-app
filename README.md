@@ -57,7 +57,8 @@ View the changelog [here](/docs/Changelog.md)
 
 # Credits
 
-This application was architected and developed by Timothy Jin, with guidance from the UBC CIC technical and project management teams.
+This application was architected and developed by Timothy Jin, with project assistance by Sophie Mok. A special thanks to the UBC Cloud Innovation Centre Technical and Project Management teams for their guidance and support.
+
 
 
 

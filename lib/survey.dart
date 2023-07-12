@@ -65,7 +65,9 @@ class _SurveyState extends State<Survey> {
                 final Task task = snapshot.data![0] as Task;
                 return SurveyKit(
                   onResult: (SurveyResult result) {
-                    saveSurvey(result.toJson());
+                    if(result.finishReason.name == 'COMPLETED') {
+                     saveSurvey(result.toJson());
+                    }
                     Navigator.pop(context);
                     Navigator.pop(context);
                     if(widget.isPreviousTime) {
