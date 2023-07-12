@@ -60,7 +60,11 @@ Be sure to replace the `[YOUR_API_KEY]` and `[API_URL]`.
 
 The `[YOUR_API_KEY]` should match the API key you generated and entered into AWS Secrets Manager when deploying the backend. If needed this key cn be viewed and retrieved from the AWS Secrets Manager console under `AWS Secrets Manager > Secrets > APIKey > Secret Value > Retrieve Secret Value`
 
-The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above.
+The `[API_URL]` should correspond to the URL of the API Gateway you deployed. This URL can be found in the **AWS Console** in the **Amazon API Gateway Console** under **ParkinsonsAPI > Stages > prod > Invoke URL**. Be sure to append `'/presigned-url'`to the API Gateway URL as shown above. \
+Example URL:  `'https://xxxxxxx.execute-api.ca-central-1.amazonaws.com/prod/presigned-url'`
+
+![Xcode Archives](../assets/api_gateway_console.png)
+
 
 **Ensure that this file is excluded from version control.**
 
