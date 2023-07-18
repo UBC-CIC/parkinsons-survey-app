@@ -40,6 +40,8 @@ class _StudyStartPageState extends State<StudyStartPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
+    final validCharacters = RegExp(r'^[a-zA-Z0-9_\-]+$');
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -80,7 +82,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                       width: 340,
                       child: TextField(
                         onChanged: (String s){
-                          if(patientIDController.value.text.isNotEmpty){
+                          if(patientIDController.value.text.isNotEmpty && validCharacters.hasMatch(patientIDController.value.text)){
                             setState(() {
                               patientIDValid = true;
                             });
@@ -97,7 +99,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Patient ID',
-                          errorText: patientIDValid? null : 'Please enter a value',
+                          errorText: patientIDValid? null : 'The patient ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
                         ),
                       ),
                     ),
@@ -108,7 +110,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                       width: 340,
                       child: TextField(
                         onChanged: (String s){
-                          if(trialIDController.value.text.isNotEmpty){
+                          if(trialIDController.value.text.isNotEmpty && validCharacters.hasMatch(trialIDController.value.text)){
                             setState(() {
                               trialIDValid = true;
                             });
@@ -125,7 +127,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Trial ID',
-                          errorText: trialIDValid? null : 'Please enter a value',
+                          errorText: trialIDValid? null : 'The patient ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
                         ),
                       ),
                     ),
