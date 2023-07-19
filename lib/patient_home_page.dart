@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkinsons_app/admin_page.dart';
@@ -7,7 +5,6 @@ import 'package:parkinsons_app/medication_now_or_previous.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:parkinsons_app/survey_now_or_previous.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:survey_kit/survey_kit.dart';
 
 class PatientHomePage extends StatefulWidget {
   const PatientHomePage({
@@ -126,5 +123,4 @@ class _PatientHomePageState extends State<PatientHomePage> {
       ),
     );
   }
-
 }

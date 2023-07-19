@@ -199,7 +199,6 @@ class _SurveyState extends State<Survey> {
     final taskJson = await rootBundle.loadString('assets/survey_json.json');
     final taskMap = json.decode(taskJson);
 
-    // return Task.fromJson(taskMap);
     return CustomNavigableTask.fromJson(taskMap);
   }
 

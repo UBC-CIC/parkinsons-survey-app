@@ -30,7 +30,6 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
       if (n >= 10) return '$n';
       return '0$n';
     }
-
     final duration = time.timeZoneOffset, hours = duration.inHours, minutes = duration.inMinutes.remainder(60).abs().toInt();
     DateFormat outputFormat = DateFormat("yyyy-MM-dd HH:mm");
     String outputTimeString = outputFormat.format(time);
@@ -105,16 +104,6 @@ class _SurveyTimePickingState extends State<SurveyTimePicking> {
                   ),
                 ),
               ),
-
-                // child: CupertinoDatePicker(
-                //     mode: CupertinoDatePickerMode.time,
-                //     onDateTimeChanged: (DateTime newTime) {
-                //       setState(() {
-                //         _result = newTime;
-                //       });
-                //     },
-                //   ),
-                // ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Row(

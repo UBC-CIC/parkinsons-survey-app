@@ -30,6 +30,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   final LocalStorage storage = LocalStorage('parkinsons_app.json');
 
+  // Value notifier to update animated status icons when uploading results
   final uploadResult = ValueNotifier<String>('none');
 
   var uuid = const Uuid();
@@ -51,12 +52,6 @@ class _AdminPageState extends State<AdminPage> {
   bool patientIDValid = true;
   bool trialIDValid = true;
   bool deviceIDValid = true;
-
-  @override
-  initState() {
-    getStoredIds();
-    super.initState();
-  }
 
   getStoredIds() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -107,6 +102,12 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   @override
+  initState() {
+    getStoredIds();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     patientIDController.dispose();
@@ -115,7 +116,11 @@ class _AdminPageState extends State<AdminPage> {
     super.dispose();
   }
 
+  // Regex for validating trial id and patient id
   final validCharacters = RegExp(r'^[a-zA-Z0-9_\-]+$');
+
+
+  // UI
 
   @override
   Widget build(BuildContext context) {
@@ -436,8 +441,6 @@ class _AdminPageState extends State<AdminPage> {
         content: const Text('This action cannot be undone.'),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
-            /// This parameter indicates this action is the default,
-            /// and turns the action's text to bold text.
             isDefaultAction: true,
             onPressed: () {
               Navigator.pop(context);
@@ -445,9 +448,6 @@ class _AdminPageState extends State<AdminPage> {
             child: const Text('No'),
           ),
           CupertinoDialogAction(
-            /// This parameter indicates the action would perform
-            /// a destructive action such as deletion, and turns
-            /// the action's text color to red.
             isDestructiveAction: true,
             onPressed: () {
               handleUpload();

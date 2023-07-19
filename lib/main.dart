@@ -58,6 +58,9 @@ class _ParkinsonsAppState extends State<ParkinsonsApp> {
   }
 }
 
+
+// Route to patient page if study is ongoing or set up page if not
+
 class PageRouter extends StatefulWidget {
   const PageRouter({super.key});
 

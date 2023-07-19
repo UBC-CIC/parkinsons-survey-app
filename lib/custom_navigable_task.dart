@@ -3,9 +3,7 @@ import 'package:survey_kit/src/steps/step.dart';
 import 'package:survey_kit/src/steps/identifier/step_identifier.dart';
 import 'package:survey_kit/src/task/task.dart';
 import 'package:survey_kit/src/task/identifier/task_identifier.dart';
-
 import 'custom_question.dart';
-import 'custom_step.dart';
 
 /// Definition of task which can handle routing between [Tasks]
 ///

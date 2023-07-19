@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'custom_multiple_choice_answer_view.dart';
-import 'custom_answer_format.dart';
 
 // Run flutter pub run build_runner build --delete-conflicting-outputs
 part 'custom_question.g.dart';
