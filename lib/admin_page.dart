@@ -44,9 +44,13 @@ class _AdminPageState extends State<AdminPage> {
 
   String dropdownValue = list[0];
 
-  final userIDController = TextEditingController();
+  final patientIDController = TextEditingController();
   final trialIDController = TextEditingController();
   final deviceIDController = TextEditingController();
+
+  bool patientIDValid = true;
+  bool trialIDValid = true;
+  bool deviceIDValid = true;
 
   @override
   initState() {
@@ -58,7 +62,7 @@ class _AdminPageState extends State<AdminPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userID = prefs.getString('userID');
     if (userID != null) {
-      userIDController.text = userID;
+      patientIDController.text = userID;
       storedUserID = userID;
     } else {
       storedUserID = '';
@@ -105,11 +109,13 @@ class _AdminPageState extends State<AdminPage> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    userIDController.dispose();
+    patientIDController.dispose();
     trialIDController.dispose();
     deviceIDController.dispose();
     super.dispose();
   }
+
+  final validCharacters = RegExp(r'^[a-zA-Z0-9_\-]+$');
 
   @override
   Widget build(BuildContext context) {
@@ -153,15 +159,25 @@ class _AdminPageState extends State<AdminPage> {
                       width: 320,
                       child: TextField(
                         onChanged: (String? s) {
+                          if (patientIDController.value.text.isNotEmpty && validCharacters.hasMatch(patientIDController.value.text)) {
+                            setState(() {
+                              patientIDValid = true;
+                            });
+                          } else {
+                            setState(() {
+                              patientIDValid = false;
+                            });
+                          }
                           updateSaveButtonForIDs();
                         },
-                        controller: userIDController,
+                        controller: patientIDController,
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Patient ID',
+                          errorText: patientIDValid? null : 'The patient ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
                         ),
                       ),
                     ),
@@ -172,6 +188,15 @@ class _AdminPageState extends State<AdminPage> {
                       width: 320,
                       child: TextField(
                         onChanged: (String? s) {
+                          if (trialIDController.value.text.isNotEmpty && validCharacters.hasMatch(trialIDController.value.text)) {
+                            setState(() {
+                              trialIDValid = true;
+                            });
+                          } else {
+                            setState(() {
+                              trialIDValid = false;
+                            });
+                          }
                           updateSaveButtonForIDs();
                         },
                         controller: trialIDController,
@@ -181,6 +206,7 @@ class _AdminPageState extends State<AdminPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Trial ID',
+                          errorText: trialIDValid? null : 'The trial ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
                         ),
                       ),
                     ),
@@ -191,6 +217,15 @@ class _AdminPageState extends State<AdminPage> {
                       width: 320,
                       child: TextField(
                         onChanged: (String? s) {
+                          if (deviceIDController.value.text.isNotEmpty) {
+                            setState(() {
+                              deviceIDValid = true;
+                            });
+                          } else {
+                            setState(() {
+                              deviceIDValid = false;
+                            });
+                          }
                           updateSaveButtonForIDs();
                         },
                         controller: deviceIDController,
@@ -200,6 +235,7 @@ class _AdminPageState extends State<AdminPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Wearable Device ID',
+                          errorText: deviceIDValid? null : 'Please enter a value',
                         ),
                       ),
                     ),
@@ -264,51 +300,69 @@ class _AdminPageState extends State<AdminPage> {
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (idsChanged) {
-                            final SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.setString('deviceID', deviceIDController.value.text);
-                            storedDeviceID = deviceIDController.value.text;
-                            await prefs.setString('trialID', trialIDController.value.text);
-                            storedTrialID = trialIDController.value.text;
-                            await prefs.setString('userID', userIDController.value.text);
-                            storedUserID = userIDController.value.text;
-                            await prefs.setString('notificationFrequency', dropdownValue);
-                            storedNotificationFrequency = dropdownValue;
-                            updateSaveButtonForIDs();
-                          }
-                          if (notifiationsChanged) {
-                            String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
-
-                            AwesomeNotifications().cancelAll();
-
-                            int repeatInterval = 0;
-
-                            if (dropdownValue == 'Every 30 min') {
-                              repeatInterval = 1800;
-                            } else if (dropdownValue == 'Every Hour') {
-                              repeatInterval = 3600;
-                            } else if (dropdownValue == 'Every 2 Hours') {
-                              repeatInterval = 7200;
-                            } else if (dropdownValue == 'Every 3 Hours') {
-                              repeatInterval = 10800;
-                            } else {
-                              repeatInterval = 0;
+                          if (patientIDController.text.isEmpty || trialIDController.text.isEmpty || deviceIDController.text.isEmpty) {
+                            if (patientIDController.text.isEmpty) {
+                              setState(() {
+                                patientIDValid = false;
+                              });
                             }
-
-                            if (repeatInterval != 0) {
-                              await AwesomeNotifications().createNotification(
-                                  content: NotificationContent(
-                                      id: 10,
-                                      channelKey: 'reminder_channel',
-                                      title: 'Survey Reminder',
-                                      body: 'Please record your symptoms in the Parkinson\'s Survey App',
-                                      notificationLayout: NotificationLayout.Default),
-                                  schedule: NotificationInterval(interval: repeatInterval, timeZone: localTimeZone, repeats: true));
+                            if (trialIDController.text.isEmpty) {
+                              setState(() {
+                                trialIDValid = false;
+                              });
                             }
-                            final SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.setString('notificationFrequency', dropdownValue);
-                            storedNotificationFrequency = dropdownValue;
-                            updateSaveButtonForNotifications();
+                            if (deviceIDController.text.isEmpty) {
+                              setState(() {
+                                deviceIDValid = false;
+                              });
+                            }
+                          } else {
+                            if (idsChanged) {
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              await prefs.setString('deviceID', deviceIDController.value.text);
+                              storedDeviceID = deviceIDController.value.text;
+                              await prefs.setString('trialID', trialIDController.value.text);
+                              storedTrialID = trialIDController.value.text;
+                              await prefs.setString('userID', patientIDController.value.text);
+                              storedUserID = patientIDController.value.text;
+                              await prefs.setString('notificationFrequency', dropdownValue);
+                              storedNotificationFrequency = dropdownValue;
+                              updateSaveButtonForIDs();
+                            }
+                            if (notifiationsChanged) {
+                              String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
+
+                              AwesomeNotifications().cancelAll();
+
+                              int repeatInterval = 0;
+
+                              if (dropdownValue == 'Every 30 min') {
+                                repeatInterval = 1800;
+                              } else if (dropdownValue == 'Every Hour') {
+                                repeatInterval = 3600;
+                              } else if (dropdownValue == 'Every 2 Hours') {
+                                repeatInterval = 7200;
+                              } else if (dropdownValue == 'Every 3 Hours') {
+                                repeatInterval = 10800;
+                              } else {
+                                repeatInterval = 0;
+                              }
+
+                              if (repeatInterval != 0) {
+                                await AwesomeNotifications().createNotification(
+                                    content: NotificationContent(
+                                        id: 10,
+                                        channelKey: 'reminder_channel',
+                                        title: 'Survey Reminder',
+                                        body: 'Please record your symptoms in the Parkinson\'s Survey App',
+                                        notificationLayout: NotificationLayout.Default),
+                                    schedule: NotificationInterval(interval: repeatInterval, timeZone: localTimeZone, repeats: true));
+                              }
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              await prefs.setString('notificationFrequency', dropdownValue);
+                              storedNotificationFrequency = dropdownValue;
+                              updateSaveButtonForNotifications();
+                            }
                           }
                         },
                         style: (idsChanged || notifiationsChanged)
@@ -345,7 +399,7 @@ class _AdminPageState extends State<AdminPage> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.done) {
                                 return ElevatedButton(
-                                  onPressed: (){
+                                  onPressed: () {
                                     _showAlertDialog(context);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -406,42 +460,40 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-
   handleUpload() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? userID = prefs.getString('userID');
-  final String? deviceID = prefs.getString('deviceID');
-  final String? trialID = prefs.getString('trialID');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userID = prefs.getString('userID');
+    final String? deviceID = prefs.getString('deviceID');
+    final String? trialID = prefs.getString('trialID');
 
-  uploadData(deviceID ?? '', userID ?? '', trialID ?? '').then((value) {
-  if (value == true) {
-  Gaimon.success();
-  uploadResult.value = 'success';
-  Future.delayed(const Duration(seconds: 2), () async {
-  await prefs.setBool('trial_in_progress', false);
-  await prefs.setString('deviceID', '');
-  await prefs.setString('trialID', '');
-  await prefs.setString('userID', '');
-  await prefs.setString('notificationFrequency', '');
-  await AwesomeNotifications().cancelAll();
-  await storage.clear();
-  if (context.mounted) {
-  Navigator.pushReplacement(
-  context, MaterialPageRoute(builder: (context) => const StudyStartPage(), fullscreenDialog: true));
+    uploadData(deviceID ?? '', userID ?? '', trialID ?? '').then((value) {
+      if (value == true) {
+        Gaimon.success();
+        uploadResult.value = 'success';
+        Future.delayed(const Duration(seconds: 2), () async {
+          await prefs.setBool('trial_in_progress', false);
+          await prefs.setString('deviceID', '');
+          await prefs.setString('trialID', '');
+          await prefs.setString('userID', '');
+          await prefs.setString('notificationFrequency', '');
+          await AwesomeNotifications().cancelAll();
+          await storage.clear();
+          if (context.mounted) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const StudyStartPage(), fullscreenDialog: true));
+          }
+        });
+      } else {
+        Gaimon.error();
+        uploadResult.value = 'failed';
+        Future.delayed(const Duration(seconds: 2), () {
+          setState(() {
+            uploadResult.value = 'none';
+            Navigator.pop(context);
+          });
+        });
+      }
+    });
   }
-  });
-  } else {
-  Gaimon.error();
-  uploadResult.value = 'failed';
-  Future.delayed(const Duration(seconds: 2), () {
-  setState(() {
-  uploadResult.value = 'none';
-  Navigator.pop(context);
-  });
-  });
-  }
-  });
-}
 
   Future<bool> uploadData(String deviceID, String userID, String trialID) async {
     showDialog(
@@ -523,7 +575,7 @@ class _AdminPageState extends State<AdminPage> {
   updateSaveButtonForIDs() {
     if (storedTrialID != trialIDController.value.text ||
         storedDeviceID != deviceIDController.value.text ||
-        storedUserID != userIDController.value.text ||
+        storedUserID != patientIDController.value.text ||
         storedNotificationFrequency != dropdownValue) {
       setState(() {
         idsChanged = true;

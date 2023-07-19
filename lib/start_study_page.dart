@@ -36,11 +36,12 @@ class _StudyStartPageState extends State<StudyStartPage> {
     super.dispose();
   }
 
+  final validCharacters = RegExp(r'^[a-zA-Z0-9_\-]+$');
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
-    final validCharacters = RegExp(r'^[a-zA-Z0-9_\-]+$');
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -127,7 +128,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           labelText: 'Trial ID',
-                          errorText: trialIDValid? null : 'The patient ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
+                          errorText: trialIDValid? null : 'The trial ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
                         ),
                       ),
                     ),
