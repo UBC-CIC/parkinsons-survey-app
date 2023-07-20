@@ -15,7 +15,7 @@
 
 |   |   |
 |---|---|
-|<img src="../assets/study_setup.png" width="85%">| When the app is first opened administrators will be able to enter the IDs corresponding to the study they will conduct. The "Trial ID" will be used to group the studies of each patient into the same "Trial" folder in storage. The "Wearbale Device ID" is the ID of the device that will be used to monitor the patient's health (i.e. Empatica Device ID). |
+|<img src="../assets/study_setup.png" width="85%">| When the app is first opened administrators will be able to enter the IDs corresponding to the study they will conduct. The "Trial ID" will be used to group the studies of each patient into the same "Trial" folder in storage. The "Wearable Device ID" is the ID of the device that will be used to monitor the patient's health (i.e. Empatica Device ID). |
 |<img src="../assets/select_notifications.png" width="85%">| Administrators can select the frequency at which notifications are sent to the patient in the dropdown. If no notifications are needed, researchers can select **No Notifications** in the dropdown. Repeating notifications are started at the time the administrator starts the study.  |
 |<img src="../assets/confirm_new_passcode.png" width="85%">| **When the app is first installed, the default passcode will be set to 1234**. To set a new passcode, administrators can select the **Reset Passcode** button and enter a new passcode. |
 
