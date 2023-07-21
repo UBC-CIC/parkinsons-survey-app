@@ -90,7 +90,7 @@ class _SurveyNowPreviousState extends State<SurveyNowPrevious> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           'Just Now',
-                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Regular'),
+                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Medium'),
                           textAlign: TextAlign.center,
                         ),),),
                   ),
@@ -119,7 +119,7 @@ class _SurveyNowPreviousState extends State<SurveyNowPrevious> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           'At a\nPrevious Time',
-                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Regular'),
+                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Medium'),
                           textAlign: TextAlign.center,
                         ),),),
                   ),

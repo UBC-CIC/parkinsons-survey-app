@@ -179,7 +179,7 @@ class _AdminPageState extends State<AdminPage> {
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(14.0),
                           ),
                           labelText: 'Patient ID',
                           errorText: patientIDValid? null : 'The patient ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
@@ -208,7 +208,7 @@ class _AdminPageState extends State<AdminPage> {
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(14.0),
                           ),
                           labelText: 'Trial ID',
                           errorText: trialIDValid? null : 'The trial ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
@@ -237,7 +237,7 @@ class _AdminPageState extends State<AdminPage> {
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(14.0),
                           ),
                           labelText: 'Wearable Device ID',
                           errorText: deviceIDValid? null : 'Please enter a value',
@@ -266,7 +266,7 @@ class _AdminPageState extends State<AdminPage> {
                       child: InputDecorator(
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(14.0),
                         )),
                         child: DropdownButtonHideUnderline(
                           child: SizedBox(
@@ -375,14 +375,14 @@ class _AdminPageState extends State<AdminPage> {
                                 elevation: 0,
                                 backgroundColor: Color(0xff0D85C9),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(14),
                                   //border radius equal to or more than 50% of width
                                 ))
                             : ElevatedButton.styleFrom(
                                 elevation: 0,
                                 backgroundColor: Color(0xffe7e8e8),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(14),
                                   //border radius equal to or more than 50% of width
                                 )),
                         child: Text(
@@ -416,7 +416,7 @@ class _AdminPageState extends State<AdminPage> {
                                       )),
                                   child: const Text(
                                     'End Study',
-                                    style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular'),
+                                    style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Medium'),
                                   ),
                                 );
                               } else {

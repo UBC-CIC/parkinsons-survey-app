@@ -83,7 +83,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         'Record\nSymptoms',
-                        style: TextStyle(fontSize: 35, fontFamily: 'DMSans-Regular'),
+                        style: TextStyle(fontSize: 35, fontFamily: 'DMSans-Medium'),
                         textAlign: TextAlign.center,
                       ),),),
                 ),
@@ -112,7 +112,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                       fit: BoxFit.scaleDown,
                       child: Text(
                     'Record\nMedication\nTime',
-                    style: TextStyle(fontSize: 35, fontFamily: 'DMSans-Regular'),
+                    style: TextStyle(fontSize: 35, fontFamily: 'DMSans-Medium'),
                     textAlign: TextAlign.center,
                   ),),),
                 ),

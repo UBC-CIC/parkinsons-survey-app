@@ -74,7 +74,6 @@ class _MedicationNowPreviousState extends State<MedicationNowPrevious> {
                     onPressed: () {
                       String timestamp = dateTimeToString(DateTime.now());
                       Navigator.push(context, MaterialPageRoute(builder: (context) => RecordMedicationConfirmation(justTaken: true, timeStamp: timestamp, formattedTimeStamp: '',)));
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecordMedicationConfirmation(justTaken: true, timeStamp: ));
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 0,
@@ -90,7 +89,7 @@ class _MedicationNowPreviousState extends State<MedicationNowPrevious> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           'Just Now',
-                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Regular'),
+                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Medium'),
                           textAlign: TextAlign.center,
                         ),),),
                   ),
@@ -119,7 +118,7 @@ class _MedicationNowPreviousState extends State<MedicationNowPrevious> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           'At a\nPrevious Time',
-                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Regular'),
+                          style: TextStyle(fontSize: 40, fontFamily: 'DMSans-Medium'),
                           textAlign: TextAlign.center,
                         ),),),
                   ),

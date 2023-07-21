@@ -97,7 +97,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(14.0),
                           ),
                           labelText: 'Patient ID',
                           errorText: patientIDValid? null : 'The patient ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
@@ -125,7 +125,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(14.0),
                           ),
                           labelText: 'Trial ID',
                           errorText: trialIDValid? null : 'The trial ID must be:\nAt least 1 character long\nContain only alphanumeric characters,\nhyphens, or underscores',
@@ -153,7 +153,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                         style: const TextStyle(fontSize: 18, fontFamily: 'DMSans-Regular'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(14.0),
                           ),
                           labelText: 'Wearable Device ID',
                           errorText: deviceIDValid? null : 'Please enter a value',
@@ -182,7 +182,7 @@ class _StudyStartPageState extends State<StudyStartPage> {
                       child: InputDecorator(
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(14.0),
                         )),
                         child: DropdownButtonHideUnderline(
                           child: SizedBox(
@@ -235,12 +235,12 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             elevation: 0,
                             backgroundColor: const Color(0xff0D85C9),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(14),
                               //border radius equal to or more than 50% of width
                             )),
                         child: const Text(
                           'Reset Passcode',
-                          style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular'),
+                          style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Medium'),
                         ),
                       ),
                     ),
@@ -325,12 +325,12 @@ class _StudyStartPageState extends State<StudyStartPage> {
                             elevation: 0,
                             backgroundColor: const Color(0xff4682B4),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(14),
                               //border radius equal to or more than 50% of width
                             )),
                         child: const Text(
                           'Start Study',
-                          style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Regular'),
+                          style: TextStyle(fontSize: 20, fontFamily: 'DMSans-Medium'),
                         ),
                       ),
                     ),
