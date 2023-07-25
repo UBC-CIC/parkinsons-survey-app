@@ -35,14 +35,17 @@ class CustomSelectionListTile extends StatelessWidget {
             child: ListTile(
               title: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  text,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: isSelected? Color(0xff00A2C8): Colors.black,
-                    fontFamily: 'DMSans-Regualar',
-                    fontSize: 26
-                  )
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      color: isSelected? Color(0xff00A2C8): Colors.black,
+                      fontFamily: 'DMSans-Regualar',
+                      fontSize: 26
+                    )
+                  ),
                 ),
               ),
               trailing: Transform.scale(

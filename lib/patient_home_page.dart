@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkinsons_app/admin_page.dart';
@@ -63,8 +64,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: SizedBox(
-                width: 0.5*width,
-                height: 0.2*height,
+                width: 0.6*width,
+                height: 0.3*height,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const SurveyNowPrevious()));
@@ -73,12 +74,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                       elevation: 0,
                       backgroundColor: const Color(0xff4682b4),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0.05*height),
+                        borderRadius: BorderRadius.circular(0.07*height),
                         //border radius equal to or more than 50% of width
                       )),
                   child: SizedBox(
-                    width: 0.35*width,
-                    height: 0.15*height,
+                    width: 0.4*width,
+                    height: 0.2*height,
                     child: const FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
@@ -92,8 +93,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: SizedBox(
-                width: 0.5*width,
-                height: 0.2*height,
+                width: 0.6*width,
+                height: 0.3*height,
                 child: ElevatedButton(
                   onPressed: () async {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const MedicationNowPrevious()));
@@ -102,12 +103,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                       elevation: 0,
                       backgroundColor: const Color(0xff4682b4),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0.05*height),
+                        borderRadius: BorderRadius.circular(0.07*height),
                         //border radius equal to or more than 50% of width
                       )),
                   child: SizedBox(
-                    width: 0.35*width,
-                    height: 0.15*height,
+                    width: 0.4*width,
+                    height: 0.2*height,
                     child: const FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
