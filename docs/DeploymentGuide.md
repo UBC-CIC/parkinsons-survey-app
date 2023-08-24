@@ -188,7 +188,7 @@ flutter build ios
 1. Once the Xcode upload is complete, navigate to your app page in App Store Connect. Under `Builds > iOS`, there should be a list of builds uploaded from Xcode. Builds may take a few minutes to appear here. 
 2. Once the uploaded build appears, click on it, fill in the Test Details, and **add Testers by their Apple ID**
 3. Once a tester is added, the app should be automatically submitted for review. The reviewing process could take a few days to process.
-4. Once the build is processed, testers will recieve a code in their email for TestFlight.
+4. Once the build is processed, testers will receive a code in their email for TestFlight.
 5. Testers can then install TestFlight from the Apple App Store on an iPhone running iOS 13.0 or later and sign in with their Apple ID. 
-6. In TestFlight, testers can press the `Redeem` button and enter the TestFlight code from their email. The app should then appear in TestFlight under Apps and testsers will be able to install the build.
+6. In TestFlight, testers can press the `Redeem` button and enter the TestFlight code from their email. The app should then appear in TestFlight under Apps and testers will be able to install the build.
 7. Builds uploaded to TestFlight have a lifespan of 90 days and will expire after that. To create another build of the app to upload to TestFlight after the 90 day period, please follow the steps above to [create another build](#create-a-build) and [upload to TestFlight](#deploy-to-testflight-1).
