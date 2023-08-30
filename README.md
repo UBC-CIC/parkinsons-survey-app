@@ -65,3 +65,20 @@ This application was architected and developed by Timothy Jin, with project assi
 # License
 
 This project is distributed under the [MIT License](./LICENSE).
+
+Licenses of libraries and tools used by the system are listed below:
+
+[MIT License](https://opensource.org/license/mit/)
+
+- For cupertino_icons, shared_preferences, intl, local_storage, flutter_spinkit, animated_check, animated_cross, flutter_launcher_icons
+
+[BSD 3-clause](https://opensource.org/license/bsd-3-clause/)
+
+- For survey_kit, json_annotation, gaimon, flutter_screen_lock, http, json_serializable, build_runner, flutter_lints
+
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+- For awesome_notifications
+
+
+
