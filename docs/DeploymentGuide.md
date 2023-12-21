@@ -45,7 +45,7 @@ cd parkinsons-survey-app/
 
 ## Connect the App to API Gateway
 
-To connect the app to the API Gateway you created when deploying the backend:
+To connect the app to the API Gateway you created when [deploying the backend](https://github.com/UBC-CIC/parkinsons-backend/blob/main/docs/DeploymentGuide.md):
 
 1. Create a new Dart file in the **lib/** folder found in the root directory of the app project called **`backend_configuration.dart`**. Please ensure the name of the file is identical. 
 2. Within this new file, you will need to enter two lines:
